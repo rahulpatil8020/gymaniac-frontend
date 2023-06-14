@@ -11,7 +11,7 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 
 function App() {
-  const mode = useSelector((state) => state.mode);
+  const mode = useSelector((state) => state.themeMode.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return (
     <>
@@ -24,7 +24,7 @@ function App() {
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
-            <Route path="/auth" element={<AuthPage />} />
+            {/* <Route path="/auth" element={<AuthPage />} /> */}
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

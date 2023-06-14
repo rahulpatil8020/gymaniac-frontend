@@ -10,6 +10,7 @@ import {
   FormControl,
   useTheme,
   useMediaQuery,
+  Tooltip,
 } from "@mui/material";
 import {
   Search,
@@ -22,8 +23,10 @@ import {
   Close,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode, setLogout } from "state";
+// import { setMode, setLogout } from "state";
+import { setMode } from "../store/slices/themeModeSlice";
 import { useNavigate } from "react-router-dom";
+import { login } from "../store/slices/authSlice";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -41,6 +44,10 @@ const Navbar = () => {
 
   const fullName = "Rahul Patil";
   // const fullName = `${user.firstName} ${user.lastName}`;
+
+  const handleMessageClick = () => {
+    dispatch(login({ user: "admin", navigate: navigate }));
+  };
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -78,16 +85,30 @@ const Navbar = () => {
 
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
-          <IconButton onClick={() => dispatch(setMode())}>
-            {theme.palette.mode === "dark" ? (
-              <DarkMode sx={{ fontSize: "25px" }} />
-            ) : (
-              <LightMode sx={{ color: dark, fontSize: "25px" }} />
-            )}
-          </IconButton>
-          <Message sx={{ fontSize: "25px" }} />
-          <Notifications sx={{ fontSize: "25px" }} />
-          <Help sx={{ fontSize: "25px" }} />
+          <Tooltip title={"Change Mode"}>
+            <IconButton onClick={() => dispatch(setMode())}>
+              {theme.palette.mode === "dark" ? (
+                <DarkMode sx={{ fontSize: "25px" }} />
+              ) : (
+                <LightMode sx={{ color: dark, fontSize: "25px" }} />
+              )}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Messages">
+            <IconButton onClick={handleMessageClick}>
+              <Message sx={{ fontSize: "25px" }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Notifications">
+            <IconButton>
+              <Notifications sx={{ fontSize: "25px" }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Help">
+            <IconButton>
+              <Help sx={{ fontSize: "25px" }} />
+            </IconButton>
+          </Tooltip>
           <FormControl variant="standard" value={fullName}>
             <Select
               value={fullName}
@@ -109,7 +130,7 @@ const Navbar = () => {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
+              <MenuItem onClick={() => console.log("Logout")}>Log Out</MenuItem>
             </Select>
           </FormControl>
         </FlexBetween>
@@ -163,9 +184,17 @@ const Navbar = () => {
                 <LightMode sx={{ color: dark, fontSize: "25px" }} />
               )}
             </IconButton>
-            <Message sx={{ fontSize: "25px" }} />
-            <Notifications sx={{ fontSize: "25px" }} />
-            <Help sx={{ fontSize: "25px" }} />
+            <Tooltip title="Messages">
+              <IconButton onClick={handleMessageClick}>
+                <Message sx={{ color: dark, fontSize: "25px" }} />
+              </IconButton>
+            </Tooltip>
+            <IconButton>
+              <Notifications sx={{ color: dark, fontSize: "25px" }} />
+            </IconButton>
+            <IconButton>
+              <Help sx={{ color: dark, fontSize: "25px" }} />
+            </IconButton>
             <FormControl variant="standard" value={fullName}>
               <Select
                 value={fullName}
@@ -187,7 +216,7 @@ const Navbar = () => {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                <MenuItem onClick={() => dispatch(setLogout())}>
+                <MenuItem onClick={() => console.log("LogOut")}>
                   Log Out
                 </MenuItem>
               </Select>

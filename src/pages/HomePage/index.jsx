@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
 
 const HomePage = () => {
-  return (
-    <div>HomePage</div>
-  )
-}
+  React.useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log(position);
+    });
+  }, []);
+  return <div>HomePage</div>;
+};
 
-export default HomePage
+export default HomePage;
