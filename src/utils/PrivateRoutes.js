@@ -4,7 +4,7 @@ import Navbar from "components/Navbar";
 
 const PrivateRoutes = ({ children, ...rest }) => {
   // const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-  const user = true;
+  const user = JSON.parse(localStorage.getItem("user"));
   return user ? (
     <>
       <Navbar />
