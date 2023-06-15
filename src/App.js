@@ -24,7 +24,7 @@ function App() {
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
-            {/* <Route path="/auth" element={<AuthPage />} /> */}
+            <Route path="/auth" element={<AuthPage />} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
