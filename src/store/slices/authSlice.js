@@ -7,15 +7,30 @@ const initialState = {
   error: null,
 };
 
-export const login = createAsyncThunk("auth/login", async (user) => {
-  const { data } = await api.login(user);
-  return data;
+export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
+  // const { data } = await api.login(user);
+  // return data;
+  try {
+    const response = await api.login(user);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
 });
 
-export const signup = createAsyncThunk("auth/signup", async (user) => {
-  const { data } = await api.signup(user);
-  return data;
-});
+export const signup = createAsyncThunk(
+  "auth/signup",
+  async (user, thunkAPI) => {
+    // const { data } = await api.signup(user);
+    // return data;
+    try {
+      const response = await api.signup(user);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -36,6 +51,16 @@ const authSlice = createSlice({
         state.user = null;
         state.status = "idle";
       }
+    },
+    setStatus: {
+      reducer(state, action) {
+        state.status = action.payload;
+      },
+      prepare(status) {
+        return {
+          payload: status,
+        };
+      },
     },
     // userLogin: {
     //   reducer(state, action) {
@@ -76,7 +101,7 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = action.payload;
       })
       .addCase(signup.pending, (state) => {
         state.status = "loading";
@@ -88,11 +113,11 @@ const authSlice = createSlice({
       })
       .addCase(signup.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = action.payload;
       });
   },
 });
 
-export const { userLogout, getUser } = authSlice.actions;
+export const { userLogout, getUser, setStatus } = authSlice.actions;
 
 export default authSlice.reducer;
