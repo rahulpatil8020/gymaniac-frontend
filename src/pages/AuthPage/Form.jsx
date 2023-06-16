@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Box, Button, useTheme, Grid } from "@mui/material";
+import { Box, Button, useTheme, Grid, Alert } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "components/InputField";
-import { signup, login } from "store/slices/authSlice";
+import { signup, login, setStatus } from "store/slices/authSlice";
 
 const initialState = {
   firstName: "",
@@ -24,6 +24,8 @@ const Form = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { status, error } = useSelector((state) => state.auth);
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(error?.message);
   useEffect(() => {
     if (
       formData.confirmPassword.length > 0 &&
@@ -39,12 +41,17 @@ const Form = () => {
     if (status === "success") {
       navigate("/");
     }
-    console.log(status);
   }, [status, navigate, error]);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (status === "idle") {
+    if (status === "idle" || status === "failed") {
       if (isSignup) {
         dispatch(signup(formData));
       } else {
@@ -68,7 +75,7 @@ const Form = () => {
   };
 
   const showLoading = () => {
-    if (status === "idle") {
+    if (status === "idle" || status === "failed") {
       return <div>{isSignup ? "Sign Up" : "Sign In"}</div>;
     } else if (status === "loading") {
       return <CircularProgress color="info" />;
@@ -124,6 +131,11 @@ const Form = () => {
             </>
           ) : null}
         </Grid>
+        {error && !isSignup && (
+          <Grid sx={{ marginTop: 1 }} xs={12}>
+            <Alert severity="error">{error.message}</Alert>
+          </Grid>
+        )}
         <Button
           // disabled={buttonDisabled}
           fullWidth
