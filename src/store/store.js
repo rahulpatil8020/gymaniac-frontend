@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
 });
 
-const persistConfig = { key: "root", storage, version: 1 };
+const persistConfig = { key: "root", storage, version: 1, blacklist: ["auth"] };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
