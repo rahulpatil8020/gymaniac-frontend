@@ -20,12 +20,19 @@ const Form = () => {
   const [isSignup, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState(initialState);
   const [passwordError, setPasswordError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   // const [buttonDisabled, setButtonDisabled] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { status, error } = useSelector((state) => state.auth);
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(error?.message);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
+
   useEffect(() => {
     if (
       formData.confirmPassword.length > 0 &&
@@ -41,13 +48,11 @@ const Form = () => {
     if (status === "success") {
       navigate("/");
     }
-  }, [status, navigate, error]);
+  }, [status, navigate]);
 
   useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, []);
+    if (error) setErrorMessage(error.message);
+  }, [error]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,8 +70,11 @@ const Form = () => {
   };
 
   const switchMode = () => {
+    setFormData(initialState);
+    setErrorMessage("");
     setIsSignUp((prevState) => !prevState);
   };
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -81,6 +89,7 @@ const Form = () => {
       return <CircularProgress color="info" />;
     }
   };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -88,6 +97,7 @@ const Form = () => {
           {isSignup ? (
             <>
               <InputField
+                value={formData.firstName}
                 name="firstName"
                 handleChange={handleInputChange}
                 label="First Name"
@@ -95,6 +105,7 @@ const Form = () => {
                 half
               />
               <InputField
+                value={formData.lastName}
                 name="lastName"
                 handleChange={handleInputChange}
                 label="Last Name"
@@ -104,12 +115,14 @@ const Form = () => {
             </>
           ) : null}
           <InputField
+            value={formData.email}
             name="email"
             label="Email Address"
             handleChange={handleInputChange}
             type="email"
           />
           <InputField
+            value={formData.password}
             name="password"
             label="Password"
             handleChange={handleInputChange}
@@ -119,6 +132,7 @@ const Form = () => {
           {isSignup ? (
             <>
               <InputField
+                value={formData.confirmPassword}
                 name="confirmPassword"
                 label="Confirm Password"
                 handleChange={handleInputChange}
@@ -131,9 +145,9 @@ const Form = () => {
             </>
           ) : null}
         </Grid>
-        {error && !isSignup && (
-          <Grid sx={{ marginTop: 1 }} xs={12}>
-            <Alert severity="error">{error.message}</Alert>
+        {errorMessage.length > 0 && (
+          <Grid item sx={{ marginTop: 1 }} xs={12}>
+            <Alert severity="error">{errorMessage}</Alert>
           </Grid>
         )}
         <Button
