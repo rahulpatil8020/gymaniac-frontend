@@ -14,6 +14,7 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
     const response = await api.login(user);
     return response.data;
   } catch (error) {
+    if (error.code === "ERR_NETWORK") return thunkAPI.rejectWithValue(error);
     return thunkAPI.rejectWithValue(error.response.data);
   }
 });
