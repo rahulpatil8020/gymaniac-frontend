@@ -21,11 +21,14 @@ const Form = () => {
   const [formData, setFormData] = useState(initialState);
   const [passwordError, setPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  // const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { status, error } = useSelector((state) => state.auth);
   const user = JSON.parse(localStorage.getItem("user"));
+
+  const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
   useEffect(() => {
     if (user) {
@@ -42,6 +45,8 @@ const Form = () => {
     } else {
       setPasswordError("");
     }
+    setIsValidPassword(PWD_REGEX.test(formData.password));
+    setErrorMessage("");
   }, [formData]);
 
   useEffect(() => {
@@ -58,6 +63,12 @@ const Form = () => {
     e.preventDefault();
     if (status === "idle" || status === "failed") {
       if (isSignup) {
+        if (!isValidPassword) {
+          setErrorMessage(
+            "The password should be 8 to 24 characters. Must include uppercase and lowercase letters, a number and a special character. Allowed characters are: ! @ # $ %"
+          );
+          return;
+        }
         dispatch(signup(formData));
       } else {
         dispatch(login(formData));
