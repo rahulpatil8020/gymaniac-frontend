@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import themeModeReducer from "./slices/themeModeSlice";
-import authReducer from "./slices/authSlice";
+import userReducer from "./slices/userSlice";
 import {
   persistReducer,
   FLUSH,
@@ -14,10 +14,10 @@ import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({
   themeMode: themeModeReducer,
-  auth: authReducer,
+  auth: userReducer,
 });
 
-const persistConfig = { key: "root", storage, version: 1, blacklist: ["auth"] };
+const persistConfig = { key: "root", storage, version: 1, blacklist: ["user"] };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
@@ -28,4 +28,5 @@ export const store = configureStore({
         ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
+  devTools: true,
 });

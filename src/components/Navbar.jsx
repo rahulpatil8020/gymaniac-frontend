@@ -25,8 +25,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../store/slices/themeModeSlice";
 import { useNavigate } from "react-router-dom";
-import { login } from "../store/slices/authSlice";
-import { userLogout, getUser } from "../store/slices/authSlice";
+import { login } from "../store/slices/userSlice";
+import { userLogout, getUser } from "../store/slices/userSlice";
 import { useEffect } from "react";
 
 const Navbar = () => {

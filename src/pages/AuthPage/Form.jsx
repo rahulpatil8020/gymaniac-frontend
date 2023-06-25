@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "components/InputField";
-import { signup, login, setStatus } from "store/slices/authSlice";
+import { signup, login, setStatus } from "store/slices/userSlice";
 
 const initialState = {
   firstName: "",
