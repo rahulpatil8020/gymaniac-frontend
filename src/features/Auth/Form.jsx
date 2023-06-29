@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "components/InputField";
-import { signup, login, setStatus } from "store/slices/userSlice";
+// import { signup, login, setStatus } from "app/slices/userSlice";
 
 const initialState = {
   firstName: "",
@@ -23,18 +23,19 @@ const Form = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isValidPassword, setIsValidPassword] = useState(false);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { status, error } = useSelector((state) => state.auth);
-  const user = JSON.parse(localStorage.getItem("user"));
-
+  // const { status, error } = useSelector((state) => state.auth);
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const status = "idle";
+  const error = null;
   const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/");
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (
@@ -69,9 +70,9 @@ const Form = () => {
           );
           return;
         }
-        dispatch(signup(formData));
+        // dispatch(signup(formData));
       } else {
-        dispatch(login(formData));
+        // dispatch(login(formData));
       }
     }
   };
@@ -179,19 +180,6 @@ const Form = () => {
           {showLoading()}
         </Button>
       </form>
-      {status === "loading" ? (
-        <Button disabled onClick={switchMode}>
-          {isSignup
-            ? "Already have an account? Sign In"
-            : "Don't have an account? Sign Up"}
-        </Button>
-      ) : (
-        <Button onClick={switchMode}>
-          {isSignup
-            ? "Already have an account? Sign In"
-            : "Don't have an account? Sign Up"}
-        </Button>
-      )}
     </>
   );
 };

@@ -23,17 +23,17 @@ import {
   Close,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode } from "../store/slices/themeModeSlice";
+import { setMode } from "../app/slices/themeModeSlice";
 import { useNavigate } from "react-router-dom";
-import { login } from "../store/slices/userSlice";
-import { userLogout, getUser } from "../store/slices/userSlice";
+// import { login } from "../app/slices/userSlice";
+// import { userLogout, getUser } from "../app/slices/userSlice";
 import { useEffect } from "react";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth?.user?.user);
+  // const user = useSelector((state) => state.auth?.user?.user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
@@ -42,15 +42,15 @@ const Navbar = () => {
   // const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
 
-  useEffect(() => {
-    dispatch(getUser());
-  }, []);
-  // const fullName = "Rahul Patil";
-  const fullName = `${user?.firstName} ${user?.lastName}`;
+  // useEffect(() => {
+  //   dispatch(getUser());
+  // }, []);
+  const fullName = "Rahul Patil";
+  // const fullName = `${user?.firstName} ${user?.lastName}`;
 
-  const handleMessageClick = () => {
-    dispatch(login({ user: "admin", navigate: navigate }));
-  };
+  // const handleMessageClick = () => {
+  //   dispatch(login({ user: "admin", navigate: navigate }));
+  // };
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -98,7 +98,7 @@ const Navbar = () => {
             </IconButton>
           </Tooltip>
           <Tooltip title="Messages">
-            <IconButton onClick={handleMessageClick}>
+            <IconButton>
               <Message sx={{ fontSize: "25px" }} />
             </IconButton>
           </Tooltip>
@@ -135,8 +135,8 @@ const Navbar = () => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  dispatch(userLogout());
-                  navigate("/auth");
+                  // dispatch(userLogout());
+                  // navigate("/auth");
                 }}
               >
                 Log Out
@@ -195,7 +195,7 @@ const Navbar = () => {
               )}
             </IconButton>
             <Tooltip title="Messages">
-              <IconButton onClick={handleMessageClick}>
+              <IconButton>
                 <Message sx={{ color: dark, fontSize: "25px" }} />
               </IconButton>
             </Tooltip>
@@ -228,8 +228,8 @@ const Navbar = () => {
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    dispatch(userLogout());
-                    navigate("/auth");
+                    // dispatch(userLogout());
+                    // navigate("/auth");
                   }}
                 >
                   Log Out

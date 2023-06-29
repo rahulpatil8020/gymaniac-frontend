@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "pages/HomePage";
-import AuthPage from "pages/AuthPage";
-import ProfilePage from "pages/ProfilePage";
-import ChatPage from "pages/ChatPage";
+import HomePage from "features/Home";
+import AuthPage from "features/Auth";
+import ProfilePage from "features/User";
+import ChatPage from "features/Chat";
 import PrivateRoutes from "utils/PrivateRoutes";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";

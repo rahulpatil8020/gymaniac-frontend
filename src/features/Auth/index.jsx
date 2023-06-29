@@ -1,9 +1,18 @@
-import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Typography,
+  useTheme,
+  useMediaQuery,
+  Button,
+} from "@mui/material";
 import Form from "./Form";
+import React, { useState } from "react";
 
 const AuthPage = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+  const [isSignup, setIsSignUp] = useState(false);
+  const status = "idle";
   return (
     <Box>
       <Box
@@ -28,6 +37,19 @@ const AuthPage = () => {
           Welcome to Gymaniac, Maximize your Gains!
         </Typography>
         <Form />
+        {status === "loading" ? (
+          <Button disabled onClick={() => {}}>
+            {isSignup
+              ? "Already have an account? Sign In"
+              : "Don't have an account? Sign Up"}
+          </Button>
+        ) : (
+          <Button onClick={() => {}}>
+            {isSignup
+              ? "Already have an account? Sign In"
+              : "Don't have an account? Sign Up"}
+          </Button>
+        )}
       </Box>
     </Box>
   );

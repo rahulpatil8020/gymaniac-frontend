@@ -1,8 +1,9 @@
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import Navbar from "components/Navbar";
 
 const PrivateRoutes = ({ children, ...rest }) => {
+  const location = useLocation();
   // const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const user = JSON.parse(localStorage.getItem("user"));
   return user ? (
@@ -11,7 +12,7 @@ const PrivateRoutes = ({ children, ...rest }) => {
       <Outlet />
     </>
   ) : (
-    <Navigate to="/auth" />
+    <Navigate to="/auth" state={{ from: location }} replace />
   );
 };
 
