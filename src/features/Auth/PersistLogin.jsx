@@ -3,10 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { useRefreshMutation } from "./authApiSlice";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "./authSlice";
-import PulseLoader from "react-spinners/PulseLoader";
+import usePersist from "hooks/usePersist";
 
 const PersistLogin = () => {
-  const persist = true;
+  const [persist] = usePersist();
   const token = useSelector(selectCurrentToken);
   const effectRan = useRef(false);
 
@@ -47,14 +47,14 @@ const PersistLogin = () => {
   } else if (isLoading) {
     //persist: yes, token: no
     console.log("loading");
-    content = <PulseLoader color={"#FFF"} />;
+    content = <h1>Loading....</h1>;
   } else if (isError) {
     //persist: yes, token: no
     console.log("error");
     content = (
       <p className="errmsg">
         {`${error?.data?.message} - `}
-        <Link to="/login">Please login again</Link>.
+        <Link to="/auth">Please login again</Link>.
       </p>
     );
   } else if (isSuccess && trueSuccess) {

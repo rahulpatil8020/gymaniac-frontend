@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import {
   Box,
   Typography,
@@ -5,14 +7,17 @@ import {
   useMediaQuery,
   Button,
 } from "@mui/material";
-import Form from "./Form";
-import React, { useState } from "react";
+import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm";
 
 const AuthPage = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const [isSignup, setIsSignUp] = useState(false);
   const status = "idle";
+
+  const handleIsSignUp = () => setIsSignUp((prev) => !prev);
+
   return (
     <Box>
       <Box
@@ -36,20 +41,13 @@ const AuthPage = () => {
         <Typography fontWeight="500" variant="h5" sx={{ mb: "1.5rem" }}>
           Welcome to Gymaniac, Maximize your Gains!
         </Typography>
-        <Form />
-        {status === "loading" ? (
-          <Button disabled onClick={() => {}}>
-            {isSignup
-              ? "Already have an account? Sign In"
-              : "Don't have an account? Sign Up"}
-          </Button>
-        ) : (
-          <Button onClick={() => {}}>
-            {isSignup
-              ? "Already have an account? Sign In"
-              : "Don't have an account? Sign Up"}
-          </Button>
-        )}
+        {isSignup ? <SignupForm /> : <LoginForm />}
+
+        <Button disabled={status === "loading"} onClick={handleIsSignUp}>
+          {isSignup
+            ? "Already have an account? Sign In"
+            : "Don't have an account? Sign Up"}
+        </Button>
       </Box>
     </Box>
   );

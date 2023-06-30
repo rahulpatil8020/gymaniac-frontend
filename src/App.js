@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
+import PersistLogin from "features/Auth/PersistLogin";
 
 function App() {
   const mode = useSelector((state) => state.themeMode.mode);
@@ -19,12 +20,14 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Routes>
-            <Route element={<PrivateRoutes />}>
-              <Route exact path="/" element={<HomePage />} />
-              <Route path="/chat" element={<ChatPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-            </Route>
             <Route path="/auth" element={<AuthPage />} />
+            <Route element={<PersistLogin />}>
+              <Route element={<PrivateRoutes />}>
+                <Route exact path="/" element={<HomePage />} />
+                <Route path="/chat" element={<ChatPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+              </Route>
+            </Route>
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
