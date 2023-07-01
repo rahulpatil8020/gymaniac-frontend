@@ -1,9 +1,9 @@
 import { Outlet, Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useRefreshMutation } from "./authApiSlice";
+import usePersist from "../../hooks/usePersist";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "./authSlice";
-import usePersist from "hooks/usePersist";
 
 const PersistLogin = () => {
   const [persist] = usePersist();
@@ -39,7 +39,7 @@ const PersistLogin = () => {
     // eslint-disable-next-line
   }, []);
 
-  let content;
+  let content = <Outlet />;
   if (!persist) {
     // persist: no
     console.log("no persist");
@@ -47,7 +47,7 @@ const PersistLogin = () => {
   } else if (isLoading) {
     //persist: yes, token: no
     console.log("loading");
-    content = <h1>Loading....</h1>;
+    content = <h1>Loading...</h1>;
   } else if (isError) {
     //persist: yes, token: no
     console.log("error");

@@ -1,28 +1,82 @@
 import { useState } from "react";
-import { Button, useTheme, Grid, Snackbar, Alert } from "@mui/material";
+import {
+  Button,
+  useTheme,
+  Grid,
+  Snackbar,
+  Alert,
+  Backdrop,
+  CircularProgress,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 import InputField from "components/InputField";
-import { useSignupMutation } from "./authApiSlice";
+import { useLoginMutation } from "./authApiSlice";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import usePersist from "hooks/usePersist";
+import { setCredentials } from "./authSlice";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+  const [persist, setPersist] = usePersist();
   const theme = useTheme();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  console.log(persist);
+  const [login, { isLoading }] = useLoginMutation();
 
-  const handleSubmit = (e) => {};
-  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { accessToken } = await login({ username, password }).unwrap();
+      dispatch(setCredentials({ accessToken }));
+      navigate("/");
+    } catch (error) {
+      setErrMsg(error?.data?.message);
+    }
+  };
+  const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleShowPassword = () => setShowPassword((prev) => !prev);
+  const handleClose = () => setErrMsg("");
+  const handleKeepLoginToggle = () => setPersist((prev) => !prev);
+
+  useEffect(() => {
+    setPersist(false);
+  }, []);
+  useEffect(() => {
+    setErrMsg("");
+  }, [username, password]);
+
+  const error = () => (
+    <Snackbar onClose={handleClose} open={errMsg} autoHideDuration={3000}>
+      <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+        {errMsg}
+      </Alert>
+    </Snackbar>
+  );
   return (
     <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      {errMsg && error()}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <InputField
-            value={email}
-            name="email"
-            label="Email Address"
-            handleChange={handleEmailChange}
-            type="email"
+            value={username}
+            name="username"
+            label="Username"
+            handleChange={handleUsernameChange}
+            type="text"
           />
           <InputField
             value={password}
@@ -34,11 +88,10 @@ const LoginForm = () => {
           />
         </Grid>
         <Button
-          // disabled={buttonDisabled}
           fullWidth
           type="submit"
           sx={{
-            m: "2rem 0",
+            m: "2rem 0 1rem",
             p: "1rem",
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.background.alt,
@@ -50,6 +103,10 @@ const LoginForm = () => {
         >
           Login
         </Button>
+        <FormControlLabel
+          control={<Checkbox onChange={handleKeepLoginToggle} />}
+          label="Keep Signed in"
+        />
       </form>
     </>
   );

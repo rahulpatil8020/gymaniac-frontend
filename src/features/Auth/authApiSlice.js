@@ -10,6 +10,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credentials },
       }),
     }),
+    signup: builder.mutation({
+      query: (userData) => ({
+        url: "api/v1/auth/signup",
+        method: "POST",
+        body: { ...userData },
+      }),
+    }),
     sendLogout: builder.mutation({
       query: () => ({
         url: "api/v1/auth/logout",
@@ -27,13 +34,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
           console.log(err);
         }
       },
-    }),
-    signup: builder.mutation({
-      query: (userData) => ({
-        url: "api/v1/auth/signup",
-        method: "POST",
-        body: { ...userData },
-      }),
     }),
     refresh: builder.mutation({
       query: () => ({

@@ -9,6 +9,7 @@ import {
   CircularProgress,
   Collapse,
   IconButton,
+  Backdrop,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import InputField from "components/InputField";
@@ -75,15 +76,17 @@ const SignupForm = () => {
       // dispatch(setCredentials({ accessToken }));
       navigate("/", { replace: true });
     } catch (error) {
-      if (!error.status) {
-        setErrMsg("No Server Response");
-      } else if (error.status === 400) {
-        setErrMsg("Missing Form Data");
-      } else if (error.status === 409) {
-        setErrMsg("Username already exists");
-      } else {
-        setErrMsg(error.data.message);
-      }
+      console.log(error);
+      setErrMsg(error?.data?.message);
+      // if (!error.status) {
+      //   setErrMsg("No Server Response");
+      // } else if (error.status === 400) {
+      //   setErrMsg("Missing Form Data");
+      // } else if (error.status === 409) {
+      //   setErrMsg("Username already exists");
+      // } else {
+      //   setErrMsg(error.data.message);
+      // }
     }
   };
 
@@ -97,6 +100,13 @@ const SignupForm = () => {
 
   return (
     <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        {" "}
+        <CircularProgress color="inherit" />
+      </Backdrop>
       {errMsg && error()}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
@@ -156,38 +166,23 @@ const SignupForm = () => {
             </Box>
           )}
         </Grid>
-        <Box>
-          <Button
-            disabled={isLoading}
-            fullWidth
-            type="submit"
-            sx={{
-              m: "2rem 0",
-              p: "1rem",
-              backgroundColor: theme.palette.primary.main,
-              color: theme.palette.background.alt,
-              "&:hover": {
-                backgroundColor: theme.palette.neutral.dark,
-                color: theme.palette.primary.main,
-              },
-            }}
-          >
-            Sign Up
-          </Button>
-          {isLoading && (
-            <CircularProgress
-              size={24}
-              sx={{
-                color: "primary",
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                marginTop: "-12px",
-                marginLeft: "-12px",
-              }}
-            />
-          )}
-        </Box>
+        <Button
+          disabled={isLoading}
+          fullWidth
+          type="submit"
+          sx={{
+            m: "2rem 0",
+            p: "1rem",
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.background.alt,
+            "&:hover": {
+              backgroundColor: theme.palette.neutral.dark,
+              color: theme.palette.primary.main,
+            },
+          }}
+        >
+          Sign Up
+        </Button>
       </form>
     </>
   );
