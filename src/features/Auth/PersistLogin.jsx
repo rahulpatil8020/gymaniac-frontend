@@ -6,19 +6,17 @@ import { useSelector } from "react-redux";
 import { selectCurrentToken } from "./authSlice";
 
 const PersistLogin = () => {
-  const [persist] = usePersist();
+  // const [persist] = usePersist();
+  const persist = true;
   const token = useSelector(selectCurrentToken);
-  const effectRan = useRef(false);
-
+  const effectRan = useRef(true);
   const [trueSuccess, setTrueSuccess] = useState(false);
-
   const [refresh, { isUninitialized, isLoading, isSuccess, isError, error }] =
     useRefreshMutation();
 
   useEffect(() => {
     if (effectRan.current === true || process.env.NODE_ENV !== "development") {
       // React 18 Strict Mode
-
       const verifyRefreshToken = async () => {
         console.log("verifying refresh token");
         try {
@@ -34,12 +32,12 @@ const PersistLogin = () => {
       if (!token && persist) verifyRefreshToken();
     }
 
-    return () => (effectRan.current = true);
+    // return () => (effectRan.current = true);
 
     // eslint-disable-next-line
   }, []);
 
-  let content = <Outlet />;
+  let content = <h1>Loading....</h1>;
   if (!persist) {
     // persist: no
     console.log("no persist");
@@ -64,7 +62,7 @@ const PersistLogin = () => {
   } else if (token && isUninitialized) {
     //persist: yes, token: yes
     console.log("token and uninit");
-    console.log(isUninitialized);
+    console.log(isUninitialized, "isUninitialized");
     content = <Outlet />;
   }
 

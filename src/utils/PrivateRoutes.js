@@ -10,7 +10,9 @@ const PrivateRoutes = ({ children, ...rest }) => {
   const token = useSelector(selectCurrentToken);
   if (token) {
     const decoded = jwtDecode(token);
-    console.log(decoded);
+    console.log(decoded, "IN PRIVATE ROUTES");
+  } else {
+    console.log("IN PRIVATE ROUTES NOT USED TOKEN");
   }
   return token ? (
     <>

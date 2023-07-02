@@ -7,8 +7,6 @@ import {
   Alert,
   Backdrop,
   CircularProgress,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material";
 import InputField from "components/InputField";
 import { useLoginMutation } from "./authApiSlice";
@@ -27,8 +25,9 @@ const LoginForm = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(persist);
+
   const [login, { isLoading }] = useLoginMutation();
+  // console.log(token, "Login Page");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -103,10 +102,6 @@ const LoginForm = () => {
         >
           Login
         </Button>
-        <FormControlLabel
-          control={<Checkbox onChange={handleKeepLoginToggle} />}
-          label="Keep Signed in"
-        />
       </form>
     </>
   );
