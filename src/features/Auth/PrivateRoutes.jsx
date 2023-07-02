@@ -8,17 +8,8 @@ import jwtDecode from "jwt-decode";
 const PrivateRoutes = ({ children, ...rest }) => {
   const location = useLocation();
   const token = useSelector(selectCurrentToken);
-  if (token) {
-    const decoded = jwtDecode(token);
-    console.log(decoded, "IN PRIVATE ROUTES");
-  } else {
-    console.log("IN PRIVATE ROUTES NOT USED TOKEN");
-  }
   return token ? (
-    <>
-      <Navbar />
-      <Outlet />
-    </>
+    <Outlet />
   ) : (
     <Navigate to="/auth" state={{ from: location }} replace />
   );

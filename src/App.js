@@ -3,13 +3,14 @@ import HomePage from "features/Home";
 import AuthPage from "features/Auth";
 import ProfilePage from "features/User";
 import ChatPage from "features/Chat";
-import PrivateRoutes from "utils/PrivateRoutes";
+import PrivateRoutes from "features/Auth/PrivateRoutes";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import PersistLogin from "features/Auth/PersistLogin";
+import Layout from "components/Layout";
 
 function App() {
   const mode = useSelector((state) => state.themeMode.mode);
@@ -23,9 +24,11 @@ function App() {
             <Route path="/auth" element={<AuthPage />} />
             <Route element={<PersistLogin />}>
               <Route element={<PrivateRoutes />}>
-                <Route exact path="/" element={<HomePage />} />
-                <Route path="/chat" element={<ChatPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
+                <Route element={<Layout />}>
+                  <Route exact path="/" element={<HomePage />} />
+                  <Route path="/chat" element={<ChatPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                </Route>
               </Route>
             </Route>
           </Routes>
