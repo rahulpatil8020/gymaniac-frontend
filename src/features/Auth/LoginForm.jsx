@@ -23,16 +23,17 @@ const LoginForm = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const abortController = new AbortController();
   const [login, { isLoading }] = useLoginMutation();
-  // console.log(token, "Login Page");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { accessToken } = await login({ username, password }).unwrap();
       dispatch(setCredentials({ accessToken }));
-      navigate("/");
+      navigate("/", {
+        replace: true,
+      });
     } catch (error) {
       setErrMsg(error?.data?.message);
     }
@@ -44,6 +45,9 @@ const LoginForm = () => {
 
   useEffect(() => {
     setErrMsg("");
+    return () => {
+      abortController.abort();
+    };
   }, [username, password]);
 
   const error = () => (

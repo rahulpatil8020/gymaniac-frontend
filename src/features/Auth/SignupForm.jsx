@@ -33,6 +33,7 @@ const SignupForm = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const abortController = new AbortController();
 
   const [signup, { isLoading, isSuccess }] = useSignupMutation();
 
@@ -51,6 +52,10 @@ const SignupForm = () => {
 
   useEffect(() => {
     setErrMsg("");
+
+    return () => {
+      abortController.abort();
+    };
   }, [firstName, lastName, username, password, confirmPassword, email]);
 
   useEffect(() => {

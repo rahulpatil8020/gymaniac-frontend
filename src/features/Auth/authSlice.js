@@ -9,7 +9,7 @@ const authSlice = createSlice({
       state.token = accessToken;
     },
     logOut: (state, action) => {
-      console.log(state, "INside Logout");
+      state.token = null;
     },
   },
 });

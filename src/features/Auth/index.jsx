@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -9,14 +8,24 @@ import {
 } from "@mui/material";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "./authSlice";
+import { useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const [isSignup, setIsSignUp] = useState(false);
   const status = "idle";
-
+  const token = useSelector(selectCurrentToken);
+  const navigate = useNavigate();
   const handleIsSignUp = () => setIsSignUp((prev) => !prev);
+
+  useEffect(() => {
+    if (token) {
+      navigate("/", { replace: true });
+    }
+  }, []);
 
   return (
     <Box>
