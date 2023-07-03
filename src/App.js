@@ -11,6 +11,7 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import PersistLogin from "features/Auth/PersistLogin";
 import Layout from "components/Layout";
+import Hero from "components/Hero";
 
 function App() {
   const mode = useSelector((state) => state.themeMode.mode);
@@ -21,11 +22,12 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Routes>
+            <Route path="/hero" element={<Hero />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route element={<PersistLogin />}>
               <Route element={<PrivateRoutes />}>
                 <Route element={<Layout />}>
-                  <Route exact path="/" element={<HomePage />} />
+                  <Route index path="/" element={<HomePage />} />
                   <Route path="/chat" element={<ChatPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
                 </Route>

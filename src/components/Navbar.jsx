@@ -11,8 +11,6 @@ import {
   useTheme,
   useMediaQuery,
   Tooltip,
-  Backdrop,
-  CircularProgress,
 } from "@mui/material";
 import {
   Search,
@@ -63,12 +61,6 @@ const Navbar = () => {
 
   return (
     <>
-      {/* <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isLoading}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop> */}
       <FlexBetween padding="1rem 6%" backgroundColor={alt}>
         <FlexBetween gap="1.75rem">
           <Typography
