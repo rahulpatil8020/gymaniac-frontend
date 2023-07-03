@@ -96,7 +96,13 @@ const SignupForm = () => {
   };
 
   const error = () => (
-    <Snackbar onClose={handleClose} open={errMsg} autoHideDuration={3000}>
+    <Snackbar
+      sx={{ marginTop: 5 }}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      onClose={handleClose}
+      open={errMsg}
+      autoHideDuration={3000}
+    >
       <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
         {errMsg}
       </Alert>
