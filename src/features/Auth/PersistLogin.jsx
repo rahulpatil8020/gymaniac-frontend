@@ -7,7 +7,6 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import LoginExpired from "errors/LoginExpired";
 
 const PersistLogin = () => {
-  // const [persist] = usePersist();
   const persist = true;
   const token = useSelector(selectCurrentToken);
   const effectRan = useRef(true);

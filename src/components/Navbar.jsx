@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FlexBetween from "./FlexBetween";
 import {
   Box,
@@ -25,32 +25,26 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../app/slices/themeModeSlice";
 import { useNavigate } from "react-router-dom";
-// import { login } from "../app/slices/userSlice";
-// import { userLogout, getUser } from "../app/slices/userSlice";
-import { useEffect } from "react";
+import { selectCurrentToken } from "features/Auth/authSlice";
+import jwtDecode from "jwt-decode";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
+  const [fullName, setFullName] = useState("User");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const user = useSelector((state) => state.auth?.user?.user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
-  // const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
+  const token = useSelector(selectCurrentToken);
 
-  // useEffect(() => {
-  //   dispatch(getUser());
-  // }, []);
-  const fullName = "Rahul Patil";
-  // const fullName = `${user?.firstName} ${user?.lastName}`;
-
-  // const handleMessageClick = () => {
-  //   dispatch(login({ user: "admin", navigate: navigate }));
-  // };
+  useEffect(() => {
+    const decoded = jwtDecode(token);
+    setFullName(decoded?.username);
+  }, []);
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>

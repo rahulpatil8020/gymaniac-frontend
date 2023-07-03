@@ -13,7 +13,6 @@ import { useLoginMutation } from "./authApiSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import usePersist from "hooks/usePersist";
 import { setCredentials } from "./authSlice";
 
 const LoginForm = () => {
@@ -21,7 +20,6 @@ const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [persist, setPersist] = usePersist();
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -43,11 +41,7 @@ const LoginForm = () => {
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleShowPassword = () => setShowPassword((prev) => !prev);
   const handleClose = () => setErrMsg("");
-  const handleKeepLoginToggle = () => setPersist((prev) => !prev);
 
-  useEffect(() => {
-    setPersist(false);
-  }, []);
   useEffect(() => {
     setErrMsg("");
   }, [username, password]);
