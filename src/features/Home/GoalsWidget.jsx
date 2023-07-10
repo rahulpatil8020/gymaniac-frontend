@@ -1,14 +1,4 @@
-import {
-  Stack,
-  Box,
-  Avatar,
-  Typography,
-  useTheme,
-  Tabs,
-  Tab,
-  Divider,
-} from "@mui/material";
-import FlexBetween from "components/FlexBetween";
+import { Stack, Box, Typography, useTheme, Divider } from "@mui/material";
 import WidgetWrapper from "components/WidgetWrapper";
 import React from "react";
 

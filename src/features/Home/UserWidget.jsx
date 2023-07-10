@@ -1,5 +1,6 @@
 import { Divider } from "@mui/material";
 import { Stack, Box, Avatar, Typography, useTheme } from "@mui/material";
+import AvatarAndName from "components/AvatarAndName";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
 import React from "react";
@@ -15,17 +16,7 @@ const UserWidget = () => {
         direction={"column"}
         spacing={1}
       >
-        <Box sx={{ display: "flex" }}>
-          <Avatar
-            sx={{ bgcolor: theme.palette.neutral.mediumMain, marginRight: 2 }}
-          >
-            RP
-          </Avatar>
-          <Box>
-            <Typography variant="h6">Rahul Patil</Typography>
-            <Typography variant="body1">rahulpatil20</Typography>
-          </Box>
-        </Box>
+        <AvatarAndName />
         <Box>
           <FlexBetween>
             <Typography variant="h6">Level</Typography>
