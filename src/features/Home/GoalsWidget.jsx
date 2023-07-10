@@ -1,0 +1,38 @@
+import {
+  Stack,
+  Box,
+  Avatar,
+  Typography,
+  useTheme,
+  Tabs,
+  Tab,
+  Divider,
+} from "@mui/material";
+import FlexBetween from "components/FlexBetween";
+import WidgetWrapper from "components/WidgetWrapper";
+import React from "react";
+
+const GoalsWidget = () => {
+  const theme = useTheme();
+  return (
+    <WidgetWrapper>
+      <Stack
+        sx={{ height: "25vh" }}
+        divider={<Divider orientation="horizontal" />}
+        direction={"column"}
+        spacing={1}
+      >
+        <Box sx={{ alignSelf: "center" }}>
+          <Typography variant="h6">Goals</Typography>
+        </Box>
+        <Box>
+          {[1, 2, 3].map((i) => (
+            <Typography>New Goal</Typography>
+          ))}
+        </Box>
+      </Stack>
+    </WidgetWrapper>
+  );
+};
+
+export default GoalsWidget;
