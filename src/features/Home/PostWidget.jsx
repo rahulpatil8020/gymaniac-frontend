@@ -1,29 +1,35 @@
-import { Stack, Box, Avatar, Typography, useTheme } from "@mui/material";
+import {
+  Stack,
+  Box,
+  Avatar,
+  Typography,
+  useTheme,
+  IconButton,
+} from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import WidgetWrapper from "components/WidgetWrapper";
+import AvatarAndName from "components/AvatarAndName";
+import { useState } from "react";
+import {
+  FavoriteOutlined,
+  FavoriteBorderOutlined,
+  ChatBubbleOutlineOutlined,
+  ShareOutlined,
+} from "@mui/icons-material";
 
 const PostWidget = () => {
-  const theme = useTheme();
+  const [isLiked, setIsLiked] = useState(false);
+  const { palette } = useTheme();
+  const main = palette.neutral.main;
+  const primary = palette.primary.main;
+
   return (
     <WidgetWrapper sx={{ marginTop: 3 }}>
       <Stack spacing={2}>
         <FlexBetween>
           <FlexBetween>
-            <Box sx={{ display: "flex" }}>
-              <Avatar
-                sx={{
-                  bgcolor: theme.palette.neutral.mediumMain,
-                  marginRight: 2,
-                }}
-              >
-                RP
-              </Avatar>
-              <Box>
-                <Typography variant="h6">Rahul Patil</Typography>
-                <Typography variant="body1">rahulpatil20</Typography>
-              </Box>
-            </Box>
+            <AvatarAndName />
           </FlexBetween>
           <MoreVertIcon />
         </FlexBetween>
@@ -32,9 +38,34 @@ const PostWidget = () => {
           sx={{
             height: 400,
             width: "100%",
-            backgroundColor: theme.palette.background.default,
+            backgroundColor: palette.background.default,
           }}
         ></Box>
+        <FlexBetween mt="0.25rem">
+          <FlexBetween gap="1rem">
+            <FlexBetween gap="0.3rem">
+              <IconButton onClick={() => console.log("Liked")}>
+                {isLiked ? (
+                  <FavoriteOutlined sx={{ color: primary }} />
+                ) : (
+                  <FavoriteBorderOutlined />
+                )}
+              </IconButton>
+              <Typography>20</Typography>
+            </FlexBetween>
+
+            <FlexBetween gap="0.3rem">
+              <IconButton onClick={() => console.log("Comment")}>
+                <ChatBubbleOutlineOutlined />
+              </IconButton>
+              <Typography>5</Typography>
+            </FlexBetween>
+          </FlexBetween>
+
+          <IconButton>
+            <ShareOutlined />
+          </IconButton>
+        </FlexBetween>
       </Stack>
     </WidgetWrapper>
   );
