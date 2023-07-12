@@ -6,6 +6,7 @@ import GoalsWidget from "./GoalsWidget";
 import WidgetWrapper from "components/WidgetWrapper";
 import AddPostWidget from "./AddPostWidget";
 import PostWidget from "./PostWidget";
+import GymInfoWidget from "./GymInfoWidget";
 
 const HomePage = () => {
   const { user } = useSelector((state) => state.auth);
@@ -50,7 +51,7 @@ const HomePage = () => {
             }}
           >
             <Box>
-              <Skeleton variant="rounded" height="25vh" />
+              <GymInfoWidget />
             </Box>
             <Box
               sx={{
