@@ -4,8 +4,9 @@ import {
   Stack,
   useTheme,
   InputBase,
-  Typography,
+  Tooltip,
   Button,
+  IconButton,
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import React from "react";
@@ -38,18 +39,18 @@ const AddPostWidget = () => {
           />
         </FlexBetween>
         <FlexBetween>
-          <Button>
-            <FlexBetween gap={0.25}>
+          <Tooltip title="Add Attachment">
+            <IconButton>
               <AttachFileOutlinedIcon sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Attachment</Typography>
-            </FlexBetween>
-          </Button>
-          <Button>
-            <FlexBetween gap={0.25}>
-              <FitnessCenterIcon sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Workout Plan</Typography>
-            </FlexBetween>
-          </Button>
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Add Workout Plan">
+            <IconButton>
+              <FitnessCenterIcon sx={{ color: mediumMain }} />{" "}
+            </IconButton>
+          </Tooltip>
+
           <Button>Post</Button>
         </FlexBetween>
       </Stack>

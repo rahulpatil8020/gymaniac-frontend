@@ -36,7 +36,9 @@ const HomePage = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <AddPostWidget />
-          <PostWidget />
+          {[1, 2, 3].map(() => (
+            <PostWidget />
+          ))}
         </Grid>
         <Grid item xs={12} md={3}>
           <Box

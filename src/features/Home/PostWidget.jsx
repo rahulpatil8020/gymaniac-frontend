@@ -20,6 +20,7 @@ import {
 
 const PostWidget = () => {
   const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(false);
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
