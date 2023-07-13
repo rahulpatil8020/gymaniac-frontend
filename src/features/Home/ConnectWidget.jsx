@@ -1,4 +1,4 @@
-import { MessageRounded } from "@mui/icons-material";
+import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import {
   Stack,
   Box,
@@ -31,7 +31,7 @@ const ConnectWidget = () => {
                   <FlexBetween>
                     <AvatarAndName />
                     <IconButton>
-                      <MessageRounded />
+                      <MessageOutlinedIcon />
                     </IconButton>
                   </FlexBetween>
                 );

@@ -1,25 +1,45 @@
-import { Stack, Box, Typography, useTheme, Divider } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  useTheme,
+  Divider,
+  Button,
+  Checkbox,
+} from "@mui/material";
+import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
-import React from "react";
+import React, { useState } from "react";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const GoalsWidget = () => {
   const theme = useTheme();
+  const [goals, setGoals] = useState([1, 3, 4, 5]);
   return (
     <WidgetWrapper>
       <Stack
-        // sx={{ height: "25vh" }}
         divider={<Divider orientation="horizontal" />}
         direction={"column"}
         spacing={1}
       >
-        <Box sx={{ alignSelf: "center" }}>
-          <Typography variant="h6">Goals</Typography>
-        </Box>
-        <Box>
-          {[1, 2, 3].map((i) => (
-            <Typography>New Goal</Typography>
+        <Typography alignSelf={"center"} variant="h6">
+          Workout Goals
+        </Typography>
+        <Stack>
+          {goals.map((i) => (
+            <FlexBetween>
+              <Stack direction={"row"} alignItems="center">
+                <Checkbox />
+                <Typography>New Goal</Typography>
+              </Stack>
+              <Stack direction="row">
+                <EditOutlinedIcon />
+                <DeleteOutlineIcon />
+              </Stack>
+            </FlexBetween>
           ))}
-        </Box>
+        </Stack>
+        <Button> Create a Goal</Button>
       </Stack>
     </WidgetWrapper>
   );

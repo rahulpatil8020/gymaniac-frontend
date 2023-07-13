@@ -13,6 +13,7 @@ import React from "react";
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import WidgetWrapper from "components/WidgetWrapper";
+
 const AddPostWidget = () => {
   const theme = useTheme();
   const mediumMain = theme.palette.neutral.mediumMain;

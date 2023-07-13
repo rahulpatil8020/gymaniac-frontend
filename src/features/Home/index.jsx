@@ -1,9 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Skeleton, Grid, Box, Container, Stack } from "@mui/material";
+import { Grid, Box, Container } from "@mui/material";
 import UserWidget from "./UserWidget";
 import GoalsWidget from "./GoalsWidget";
-import WidgetWrapper from "components/WidgetWrapper";
 import AddPostWidget from "./AddPostWidget";
 import PostWidget from "./PostWidget";
 import GymInfoWidget from "./GymInfoWidget";
