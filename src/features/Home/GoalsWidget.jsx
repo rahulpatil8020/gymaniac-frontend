@@ -7,7 +7,7 @@ const GoalsWidget = () => {
   return (
     <WidgetWrapper>
       <Stack
-        sx={{ height: "25vh" }}
+        // sx={{ height: "25vh" }}
         divider={<Divider orientation="horizontal" />}
         direction={"column"}
         spacing={1}

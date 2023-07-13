@@ -14,10 +14,9 @@ const HomePage = () => {
   return (
     <Container maxWidth="lg">
       <Grid sx={{ paddingTop: 3 }} container spacing={3}>
-        <Grid height={"100%"} item xs={12} md={3}>
+        <Grid item xs={12} md={3}>
           <Box
             sx={{
-              // maxHeight: "100%",
               display: "flex",
               flexDirection: "column",
               alignItems: "left",
@@ -28,7 +27,6 @@ const HomePage = () => {
             <Box
               sx={{
                 marginTop: 5,
-                height: "20rem",
                 overflow: "hidden",
               }}
             >
@@ -57,7 +55,6 @@ const HomePage = () => {
             <Box
               sx={{
                 marginTop: 5,
-                maxHeight: "20rem",
                 overflow: "hidden",
               }}
             >
