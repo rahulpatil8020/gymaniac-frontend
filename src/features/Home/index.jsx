@@ -7,6 +7,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import AddPostWidget from "./AddPostWidget";
 import PostWidget from "./PostWidget";
 import GymInfoWidget from "./GymInfoWidget";
+import ConnectWidget from "./ConnectWidget";
 
 const HomePage = () => {
   const { user } = useSelector((state) => state.auth);
@@ -56,11 +57,11 @@ const HomePage = () => {
             <Box
               sx={{
                 marginTop: 5,
-                height: "20rem",
+                maxHeight: "20rem",
                 overflow: "hidden",
               }}
             >
-              <Skeleton variant="rounded" height="40vh" />
+              <ConnectWidget />
             </Box>
           </Box>
         </Grid>

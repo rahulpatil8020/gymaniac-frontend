@@ -32,7 +32,9 @@ const PostWidget = () => {
           <FlexBetween>
             <AvatarAndName />
           </FlexBetween>
-          <MoreVertIcon />
+          <IconButton>
+            <MoreVertIcon />
+          </IconButton>
         </FlexBetween>
         <Typography>This is the comment ... </Typography>
         <Box
