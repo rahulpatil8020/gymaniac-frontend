@@ -1,11 +1,4 @@
-import {
-  Stack,
-  Box,
-  Avatar,
-  Typography,
-  useTheme,
-  IconButton,
-} from "@mui/material";
+import { Stack, Box, Typography, useTheme, IconButton } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -19,10 +12,9 @@ import {
 } from "@mui/icons-material";
 
 const PostWidget = () => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(false);
+  const [isLiked] = useState(false);
+  const [likeCount] = useState(20);
   const { palette } = useTheme();
-  const main = palette.neutral.main;
   const primary = palette.primary.main;
 
   return (
@@ -54,7 +46,7 @@ const PostWidget = () => {
                   <FavoriteBorderOutlined />
                 )}
               </IconButton>
-              <Typography>20</Typography>
+              <Typography>{likeCount}</Typography>
             </FlexBetween>
 
             <FlexBetween gap="0.3rem">

@@ -12,6 +12,7 @@ import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 const ConnectWidget = () => {
+  // eslint-disable-next-line no-unused-vars
   const [friendsList, setFriendsList] = useState([1, 2, 4, 5, 6, 7]);
   return (
     <WidgetWrapper>
@@ -25,7 +26,7 @@ const ConnectWidget = () => {
         </Box>
         {friendsList.length && (
           <Stack spacing={1.4}>
-            {friendsList.map((ele, i) => {
+            {friendsList.map(function (ele, i) {
               if (i <= 3) {
                 return (
                   <FlexBetween>
@@ -36,6 +37,7 @@ const ConnectWidget = () => {
                   </FlexBetween>
                 );
               }
+              return <></>;
             })}
           </Stack>
         )}

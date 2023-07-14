@@ -4,6 +4,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import React, { useState } from "react";
 
 const GymInfoWidget = () => {
+  // eslint-disable-next-line no-unused-vars
   const [isMember, setIsMember] = useState(true);
 
   return (

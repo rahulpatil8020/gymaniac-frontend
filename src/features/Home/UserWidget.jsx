@@ -1,11 +1,12 @@
 import { Divider } from "@mui/material";
-import { Stack, Box, Avatar, Typography, useTheme } from "@mui/material";
+import { Stack, Box, Typography, useTheme } from "@mui/material";
 import AvatarAndName from "components/AvatarAndName";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
 import React from "react";
 
 const UserWidget = () => {
+  // eslint-disable-next-line no-unused-vars
   const theme = useTheme();
 
   return (

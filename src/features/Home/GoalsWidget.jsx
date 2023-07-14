@@ -34,6 +34,7 @@ const GoalsWidget = () => {
   const handleCreateGoal = () => {
     let temp = true;
     if (!goal) return;
+    // eslint-disable-next-line array-callback-return
     goals.map((item) => {
       if (
         compareStringsIgnoreExtra(item?.title, goal?.title) &&
@@ -75,6 +76,7 @@ const GoalsWidget = () => {
   const handleEditGoal = () => {
     let temp = true;
     if (!goal) return;
+    // eslint-disable-next-line array-callback-return
     goals.map((item) => {
       if (
         compareStringsIgnoreExtra(item?.title, goal?.title) &&
@@ -143,7 +145,7 @@ const GoalsWidget = () => {
             {goals.map((ele, i) => {
               if (ele.completed) return <></>;
               return (
-                <>
+                <div>
                   <FlexBetween>
                     <Stack direction={"row"} alignItems="center">
                       <Checkbox onChange={() => handleGoalComplete(ele)} />
@@ -166,7 +168,7 @@ const GoalsWidget = () => {
                       </IconButton>
                     </Stack>
                   </FlexBetween>
-                </>
+                </div>
               );
             })}
           </Stack>

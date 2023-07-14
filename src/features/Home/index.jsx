@@ -9,6 +9,7 @@ import GymInfoWidget from "./GymInfoWidget";
 import ConnectWidget from "./ConnectWidget";
 
 const HomePage = () => {
+  // eslint-disable-next-line no-unused-vars
   const { user } = useSelector((state) => state.auth);
   return (
     <Container maxWidth="lg">
@@ -35,8 +36,8 @@ const HomePage = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <AddPostWidget />
-          {[1, 2, 3].map(() => (
-            <PostWidget />
+          {[1, 2, 3].map((id) => (
+            <PostWidget key={id} />
           ))}
         </Grid>
         <Grid item xs={12} md={3}>

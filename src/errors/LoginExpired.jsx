@@ -4,7 +4,7 @@ const LoginExpired = () => {
   const navigate = useNavigate();
   useEffect(() => {
     navigate("/hero");
-  }, []);
+  }, []); // eslint-disable-line
   return <></>;
 };
 

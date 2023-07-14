@@ -7,13 +7,9 @@ import {
   Alert,
   Box,
   CircularProgress,
-  Collapse,
-  IconButton,
   Backdrop,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import InputField from "components/InputField";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useSignupMutation } from "./authApiSlice";
@@ -31,13 +27,12 @@ const SignupForm = () => {
   const [errMsg, setErrMsg] = useState("");
 
   const theme = useTheme();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const abortController = new AbortController();
 
-  const [signup, { isLoading, isSuccess }] = useSignupMutation();
+  const [signup, { isLoading }] = useSignupMutation();
 
-  const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+  const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/; // eslint-disable-line
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleFirstNameChange = (e) => setFirstName(e.target.value);
@@ -56,7 +51,7 @@ const SignupForm = () => {
     return () => {
       abortController.abort();
     };
-  }, [firstName, lastName, username, password, confirmPassword, email]);
+  }, [firstName, lastName, username, password, confirmPassword, email]); // eslint-disable-line
 
   useEffect(() => {
     setValidPassword(PWD_REGEX.test(password));
@@ -71,6 +66,7 @@ const SignupForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // eslint-disable-next-line no-unused-vars
       const { message } = await signup({
         firstName,
         lastName,
@@ -78,20 +74,10 @@ const SignupForm = () => {
         email,
         password,
       }).unwrap();
-      // dispatch(setCredentials({ accessToken }));
       navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
       setErrMsg(error?.data?.message);
-      // if (!error.status) {
-      //   setErrMsg("No Server Response");
-      // } else if (error.status === 400) {
-      //   setErrMsg("Missing Form Data");
-      // } else if (error.status === 409) {
-      //   setErrMsg("Username already exists");
-      // } else {
-      //   setErrMsg(error.data.message);
-      // }
     }
   };
 

@@ -48,7 +48,7 @@ const LoginForm = () => {
     return () => {
       abortController.abort();
     };
-  }, [username, password]);
+  }, [username, password]); // eslint-disable-line
 
   const error = () => (
     <Snackbar
