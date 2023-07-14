@@ -4,9 +4,9 @@ import { Grid, Box, Container } from "@mui/material";
 import UserWidget from "./UserWidget";
 import GoalsWidget from "./GoalsWidget";
 import AddPostWidget from "./AddPostWidget";
-import PostWidget from "./PostWidget";
 import GymInfoWidget from "./GymInfoWidget";
 import ConnectWidget from "./ConnectWidget";
+import Posts from "features/Posts/Posts";
 
 const HomePage = () => {
   // eslint-disable-next-line no-unused-vars
@@ -36,9 +36,7 @@ const HomePage = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <AddPostWidget />
-          {[1, 2, 3].map((id) => (
-            <PostWidget key={id} />
-          ))}
+          <Posts />
         </Grid>
         <Grid item xs={12} md={3}>
           <Box

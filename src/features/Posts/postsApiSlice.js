@@ -12,7 +12,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query({
       query: () => ({
-        url: "/v1/api/posts",
+        url: "/api/v1/post",
         validateStatus: (response, result) => {
           return response.status === 200 && !result.isError;
         },
@@ -35,7 +35,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     }),
     addNewPost: builder.mutation({
       query: (initialPost) => ({
-        url: "/v1/api/posts",
+        url: "/api/v1/post",
         method: "POST",
         body: {
           ...initialPost,
@@ -45,7 +45,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     }),
     updatePost: builder.mutation({
       query: (initialPost) => ({
-        url: "/v1/api/posts",
+        url: "/api/v1/post",
         method: "PATCH",
         body: {
           ...initialPost,
@@ -55,7 +55,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     }),
     deletePost: builder.mutation({
       query: ({ id }) => ({
-        url: "/v1/api/posts",
+        url: "/api/v1/post",
         method: "DELETE",
         body: { id },
       }),
