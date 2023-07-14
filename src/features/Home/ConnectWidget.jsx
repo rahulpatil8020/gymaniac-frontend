@@ -29,7 +29,7 @@ const ConnectWidget = () => {
             {friendsList.map(function (ele, i) {
               if (i <= 3) {
                 return (
-                  <FlexBetween>
+                  <FlexBetween key={i}>
                     <AvatarAndName />
                     <IconButton>
                       <MessageOutlinedIcon />
@@ -37,7 +37,7 @@ const ConnectWidget = () => {
                   </FlexBetween>
                 );
               }
-              return <></>;
+              return null;
             })}
           </Stack>
         )}

@@ -143,32 +143,30 @@ const GoalsWidget = () => {
           </Typography>
           <Stack>
             {goals.map((ele, i) => {
-              if (ele.completed) return <></>;
+              if (ele.completed) return null;
               return (
-                <div>
-                  <FlexBetween>
-                    <Stack direction={"row"} alignItems="center">
-                      <Checkbox onChange={() => handleGoalComplete(ele)} />
-                      <Typography width={125} noWrap textOverflow={"ellipsis"}>
-                        {ele.title}
-                      </Typography>
-                    </Stack>
-                    <Stack direction="row">
-                      {isEditing && ele.id === goal.id ? (
-                        <IconButton onClick={handleCancleEditing}>
-                          <CloseIcon />
-                        </IconButton>
-                      ) : (
-                        <IconButton onClick={() => handleEditing(ele)}>
-                          <EditOutlinedIcon />
-                        </IconButton>
-                      )}
-                      <IconButton onClick={() => handleDeleteGoal(ele)}>
-                        <DeleteOutlineIcon />
+                <FlexBetween key={i}>
+                  <Stack direction={"row"} alignItems="center">
+                    <Checkbox onChange={() => handleGoalComplete(ele)} />
+                    <Typography width={125} noWrap textOverflow={"ellipsis"}>
+                      {ele.title}
+                    </Typography>
+                  </Stack>
+                  <Stack direction="row">
+                    {isEditing && ele.id === goal.id ? (
+                      <IconButton onClick={handleCancleEditing}>
+                        <CloseIcon />
                       </IconButton>
-                    </Stack>
-                  </FlexBetween>
-                </div>
+                    ) : (
+                      <IconButton onClick={() => handleEditing(ele)}>
+                        <EditOutlinedIcon />
+                      </IconButton>
+                    )}
+                    <IconButton onClick={() => handleDeleteGoal(ele)}>
+                      <DeleteOutlineIcon />
+                    </IconButton>
+                  </Stack>
+                </FlexBetween>
               );
             })}
           </Stack>
