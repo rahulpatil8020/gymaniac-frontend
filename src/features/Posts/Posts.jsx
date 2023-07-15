@@ -14,11 +14,10 @@ const Posts = () => {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
-  console.log(posts);
   return (
     <>
-      {[1, 2, 3].map((id) => (
-        <PostWidget key={id} />
+      {posts?.ids?.map((id) => (
+        <PostWidget key={id} postId={id} />
       ))}
     </>
   );

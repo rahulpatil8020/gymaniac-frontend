@@ -11,7 +11,7 @@ import {
 import FlexBetween from "components/FlexBetween";
 import React from "react";
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+// import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import WidgetWrapper from "components/WidgetWrapper";
 
 const AddPostWidget = () => {
@@ -46,11 +46,11 @@ const AddPostWidget = () => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Add Workout Plan">
+          {/* <Tooltip title="Add Workout Plan">
             <IconButton>
               <FitnessCenterIcon sx={{ color: mediumMain }} />{" "}
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
 
           <Button>Post</Button>
         </FlexBetween>

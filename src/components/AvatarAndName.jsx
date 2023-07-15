@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Avatar, Typography, useTheme, Stack, Link } from "@mui/material";
 import avatarImage from "../assets/1.jpg";
 
-const AvatarAndName = () => {
+const AvatarAndName = ({ username }) => {
   const theme = useTheme();
   const mediumMain = theme.palette.neutral.mediumMain;
   const dark = theme.palette.neutral.dark;
@@ -20,7 +20,7 @@ const AvatarAndName = () => {
         component={"button"}
         onClick={() => console.log("user")}
       >
-        <Stack>
+        <Stack alignItems={"start"}>
           <Typography
             color={dark}
             sx={{ paddingTop: 0.5 }}
@@ -30,7 +30,7 @@ const AvatarAndName = () => {
             Rahul Patil
           </Typography>
           <Typography color={mediumMain} variant="body1">
-            rahulpatil20
+            {username}
           </Typography>
         </Stack>
       </Link>
