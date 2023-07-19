@@ -34,7 +34,7 @@ const HomePage = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid paddingBottom={2} item xs={12} md={6}>
           <AddPostWidget />
           <Posts />
         </Grid>

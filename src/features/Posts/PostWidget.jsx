@@ -10,16 +10,18 @@ import {
   FavoriteBorderOutlined,
   ChatBubbleOutlineOutlined,
   ShareOutlined,
+  ChatBubbleTwoTone,
 } from "@mui/icons-material";
 import { useGetPostsQuery } from "./postsApiSlice";
 import { useSelector } from "react-redux";
+import Comments from "./Comments";
 
 const PostWidget = ({ postId }) => {
   const { token } = useSelector((state) => state.auth);
   const [username, setUsername] = useState("");
   const { palette } = useTheme();
   const [hasUserLiked, setHasUserLiked] = useState(false);
-
+  const [commentsOpen, setCommentsOpen] = useState(false);
   const primary = palette.primary.main;
 
   const { post } = useGetPostsQuery("postsList", {
@@ -42,6 +44,10 @@ const PostWidget = ({ postId }) => {
   useEffect(() => {
     if (post?.likedBy?.includes(username)) setHasUserLiked(true);
   }, [post, username]);
+
+  const handleCommentsOpen = () => {
+    setCommentsOpen((prev) => !prev);
+  };
 
   return (
     <WidgetWrapper sx={{ marginTop: 3 }}>
@@ -79,8 +85,12 @@ const PostWidget = ({ postId }) => {
               <Typography>{post?.likedBy?.length}</Typography>
             </FlexBetween>
             <FlexBetween gap="0.3rem">
-              <IconButton onClick={() => console.log("Comment")}>
-                <ChatBubbleOutlineOutlined />
+              <IconButton onClick={handleCommentsOpen}>
+                {commentsOpen ? (
+                  <ChatBubbleTwoTone />
+                ) : (
+                  <ChatBubbleOutlineOutlined />
+                )}
               </IconButton>
               <Typography>{post?.comments?.length}</Typography>
             </FlexBetween>
@@ -90,6 +100,7 @@ const PostWidget = ({ postId }) => {
             <ShareOutlined />
           </IconButton>
         </FlexBetween>
+        {commentsOpen && <Comments comments={post?.comments} />}
       </Stack>
     </WidgetWrapper>
   );

@@ -19,7 +19,7 @@ const ConnectWidget = () => {
       <Stack
         divider={<Divider orientation="horizontal" />}
         direction={"column"}
-        spacing={1.7}
+        spacing={1}
       >
         <Box sx={{ alignSelf: "center" }}>
           <Typography variant="h6">Connect</Typography>
@@ -41,8 +41,8 @@ const ConnectWidget = () => {
             })}
           </Stack>
         )}
-        <Button>Add New Connections</Button>
       </Stack>
+      <Button sx={{ marginTop: 2 }}>Add New Connections</Button>
     </WidgetWrapper>
   );
 };

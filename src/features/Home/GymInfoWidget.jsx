@@ -38,8 +38,8 @@ const GymInfoWidget = () => {
             </Stack>
           </>
         )}
-        <Button>Find Gyms / Trainer </Button>
       </Stack>
+      <Button sx={{ marginTop: 2 }}>Find Gyms / Trainer </Button>
     </WidgetWrapper>
   );
 };

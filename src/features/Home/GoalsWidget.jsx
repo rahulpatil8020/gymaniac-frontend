@@ -4,7 +4,7 @@ import {
   useTheme,
   Divider,
   Checkbox,
-  InputBase,
+  Box,
   IconButton,
   Alert,
   Snackbar,
@@ -18,6 +18,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
 import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
+import InputAndIcon from "components/InputAndIcon";
 const GoalsWidget = () => {
   const theme = useTheme();
 
@@ -115,6 +116,10 @@ const GoalsWidget = () => {
     );
   };
 
+  const handleGoalChange = (e) => {
+    setGoal({ ...goal, title: e.target.value });
+  };
+
   const createSnackbar = () => (
     <Snackbar
       onClose={() => {
@@ -170,29 +175,29 @@ const GoalsWidget = () => {
               );
             })}
           </Stack>
-          <Stack spacing={1}>
-            <FlexBetween
-              backgroundColor={neutralLight}
-              borderRadius="9px"
-              padding="0.1rem 1rem"
-            >
-              <InputBase
-                value={goal ? goal.title : ""}
-                onChange={(e) => setGoal({ ...goal, title: e.target.value })}
-                placeholder="Create a Goal..."
-              />
-              {isEditing ? (
-                <IconButton onClick={handleEditGoal}>
-                  <DoneIcon />
-                </IconButton>
-              ) : (
-                <IconButton onClick={handleCreateGoal}>
-                  <AddIcon />
-                </IconButton>
-              )}
-            </FlexBetween>
-          </Stack>
         </Stack>
+        <Box marginTop={2}>
+          <InputAndIcon
+            placeholder={"Create a Goal"}
+            iconButton={
+              <>
+                {isEditing ? (
+                  <IconButton onClick={handleEditGoal}>
+                    <DoneIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={handleCreateGoal}>
+                    <AddIcon />
+                  </IconButton>
+                )}
+              </>
+            }
+            value={goal ? goal.title : ""}
+            fullWidth
+            backgroundColor={neutralLight}
+            onChange={handleGoalChange}
+          />
+        </Box>
         <Button sx={{ marginTop: 1 }}>View All</Button>
       </WidgetWrapper>
     </>

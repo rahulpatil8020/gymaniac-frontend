@@ -28,10 +28,18 @@ import { useNavigate } from "react-router-dom";
 import { selectCurrentToken } from "features/Auth/authSlice";
 import jwtDecode from "jwt-decode";
 import { useSendLogoutMutation } from "features/Auth/authApiSlice";
+import InputAndIcon from "./InputAndIcon";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const [fullName, setFullName] = useState("User");
+  const [searchText, setSearchText] = useState("");
+
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const handleSearch = () => {};
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -80,17 +88,17 @@ const Navbar = () => {
             Gymaniac
           </Typography>
           {isNonMobileScreens && (
-            <FlexBetween
+            <InputAndIcon
+              value={searchText}
+              onChange={handleSearchChange}
+              placeholder={"Search..."}
+              iconButton={
+                <IconButton onClick={handleSearch}>
+                  <Search />
+                </IconButton>
+              }
               backgroundColor={neutralLight}
-              borderRadius="9px"
-              gap="3rem"
-              padding="0.1rem 1.5rem"
-            >
-              <InputBase placeholder="Search...." />
-              <IconButton>
-                <Search />
-              </IconButton>
-            </FlexBetween>
+            />
           )}
         </FlexBetween>
 
