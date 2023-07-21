@@ -1,12 +1,10 @@
 import {
   Divider,
-  InputBase,
   Stack,
   Typography,
   useTheme,
   IconButton,
 } from "@mui/material";
-import FlexBetween from "components/FlexBetween";
 import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import InputAndIcon from "components/InputAndIcon";
@@ -25,7 +23,7 @@ const Comments = ({ comments }) => {
       {comments.length !== 0 ? (
         <Stack divider={<Divider />} spacing={1}>
           {comments.map((comment) => (
-            <Stack spacing={0.3}>
+            <Stack key={comment.commentOn} spacing={0.3}>
               <Stack spacing={2} direction="row">
                 <Typography variant="h6">{comment?.commentBy}</Typography>
                 <Typography
