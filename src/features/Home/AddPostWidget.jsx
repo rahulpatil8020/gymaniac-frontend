@@ -7,59 +7,42 @@ import {
   Tooltip,
   Button,
   IconButton,
-  Modal,
-  Box,
   Typography,
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import React, { useState } from "react";
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
-// import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CloseIcon from "@mui/icons-material/Close";
 import WidgetWrapper from "components/WidgetWrapper";
 
 const AddPostWidget = () => {
   const theme = useTheme();
-  const mediumMain = theme.palette.neutral.mediumMain;
-  const [postText, setPostText] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [imageMetadata, setImageMetadata] = useState(null);
+  const [imageURL, setImageURL] = useState("null");
+  const [multiline, setMultiline] = useState(false);
+  const [caption, setCaption] = useState("");
 
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => {
-    console.log(postText);
-    setShowModal(false);
+  const handleCancelImage = () => {
+    setImageMetadata(null);
+    setImageURL("");
   };
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    bgcolor: "background.paper",
-    borderRadius: "15px",
-    boxShadow: 24,
-    p: 2,
-  };
+  function handleImageUpload(e) {
+    let file = e.target.files[0];
+    encodeImageFileAsURL(file);
+    setImageMetadata(file);
+  }
+
+  function encodeImageFileAsURL(file) {
+    var reader = new FileReader();
+    reader.onloadend = function () {
+      setImageURL(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
   return (
     <>
-      <Modal open={showModal}>
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            What's On Your Mind...
-          </Typography>
-          <InputBase
-            onChange={(e) => setPostText(e.target.value)}
-            autoFocus
-            sx={{
-              width: "100%",
-              backgroundColor: theme.palette.neutral.light,
-              padding: "1rem 1rem",
-            }}
-            multiline
-            minRows={4}
-          ></InputBase>
-          <Button onClick={handleCloseModal}>Close</Button>
-        </Box>
-      </Modal>
       <WidgetWrapper>
         <Stack
           spacing={2}
@@ -69,29 +52,58 @@ const AddPostWidget = () => {
           <FlexBetween gap="1rem">
             <Avatar>RP</Avatar>
             <InputBase
+              value={caption}
+              autoFocus={multiline}
               placeholder="What's on your mind..."
-              onChange={(e) => console.log(`What's on your mind`)}
-              // value={post}
+              onChange={(e) => setCaption(e.target.value)}
+              onFocus={() => setMultiline(true)}
+              onBlur={() => setMultiline(false)}
+              multiline={multiline}
+              rows={multiline ? 4 : 1}
               sx={{
                 width: "100%",
                 backgroundColor: theme.palette.neutral.light,
-                borderRadius: "2rem",
+                borderRadius: "1rem",
                 padding: "1rem 1rem",
               }}
             />
           </FlexBetween>
           <FlexBetween>
-            <Tooltip title="Add Attachment">
-              <label htmlFor="icon-button-file">
-                <IconButton
-                  onClick={handleOpenModal}
-                  aria-label="upload picture"
-                  component="span"
-                >
-                  <AttachFileOutlinedIcon />
-                </IconButton>
-              </label>
-            </Tooltip>
+            <Stack alignItems="center" spacing={2} direction={"row"}>
+              <input
+                onChange={handleImageUpload}
+                accept="image/*"
+                style={{ display: "none" }}
+                id="icon-button-file"
+                type="file"
+              />
+              <Tooltip title="Add Attachment">
+                <label htmlFor="icon-button-file">
+                  <IconButton aria-label="upload picture" component="span">
+                    <AttachFileOutlinedIcon />
+                  </IconButton>
+                </label>
+              </Tooltip>
+              {imageMetadata && (
+                <Stack alignItems="center" direction="row" spacing={1}>
+                  <Typography
+                    textAlign={"center"}
+                    backgroundColor={theme.palette.neutral.light}
+                    width={100}
+                    noWrap
+                    textOverflow={"ellipsis"}
+                  >
+                    {imageMetadata?.name}
+                  </Typography>
+                  <IconButton onClick={handleCancelImage}>
+                    <CloseIcon />
+                  </IconButton>
+                </Stack>
+              )}
+              <IconButton onClick={() => console.log("Location clicked")}>
+                <LocationOnIcon />
+              </IconButton>
+            </Stack>
 
             <Button>Post</Button>
           </FlexBetween>
