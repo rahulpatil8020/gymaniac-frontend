@@ -1,13 +1,22 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 
 import { apiSlice } from "app/api/apiSlice";
+import { setUserInfo } from "./userSlice";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getUser: builder.query({
-      query: (id) => `/api/v1/user/${id}`,
+    getUserInfo: builder.query({
+      query: (id) => `/api/v1/user`,
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setUserInfo(data));
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
   }),
 });
 
-export const { useGetUseQuery } = userApiSlice;
+export const { useGetUserInfoQuery } = userApiSlice;

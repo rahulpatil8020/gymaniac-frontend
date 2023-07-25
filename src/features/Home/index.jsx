@@ -7,10 +7,12 @@ import AddPostWidget from "./AddPostWidget";
 import GymInfoWidget from "./GymInfoWidget";
 import ConnectWidget from "./ConnectWidget";
 import Posts from "features/Posts/Posts";
+import { selectUserInfo } from "features/User/userSlice";
 
 const HomePage = () => {
   // eslint-disable-next-line no-unused-vars
-  const { user } = useSelector((state) => state.auth);
+  const userInfo = useSelector(selectUserInfo);
+  console.log(userInfo, "In home page index");
   return (
     <Container maxWidth="lg">
       <Grid sx={{ paddingTop: 3 }} container spacing={3}>
