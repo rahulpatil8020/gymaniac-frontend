@@ -4,11 +4,14 @@ import AvatarAndName from "components/AvatarAndName";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectUserInfo } from "features/User/userSlice";
 
 const UserWidget = () => {
   // eslint-disable-next-line no-unused-vars
   const theme = useTheme();
-
+  const userInfo = useSelector(selectUserInfo);
+  const fullName = userInfo?.firstName + " " + userInfo?.lastName;
   return (
     <WidgetWrapper>
       <Stack
@@ -17,11 +20,11 @@ const UserWidget = () => {
         direction={"column"}
         spacing={1}
       >
-        <AvatarAndName />
+        <AvatarAndName username={userInfo?.username} name={fullName} />
         <Box>
           <FlexBetween>
             <Typography variant="h6">Level</Typography>
-            <Typography variant="body">Beginner</Typography>
+            <Typography variant="body">{userInfo?.level}</Typography>
           </FlexBetween>
           <FlexBetween>
             <Typography variant="h6">Challenges</Typography>

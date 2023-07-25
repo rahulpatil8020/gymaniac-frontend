@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Avatar, Typography, useTheme, Stack, Link } from "@mui/material";
 import avatarImage from "../assets/1.jpg";
 
-const AvatarAndName = ({ username }) => {
+const AvatarAndName = ({ username, name }) => {
   const theme = useTheme();
   const mediumMain = theme.palette.neutral.mediumMain;
   const dark = theme.palette.neutral.dark;
@@ -27,7 +27,7 @@ const AvatarAndName = ({ username }) => {
             lineHeight={0.8}
             variant="h6"
           >
-            Rahul Patil
+            {name}
           </Typography>
           <Typography color={mediumMain} variant="body1">
             {username}

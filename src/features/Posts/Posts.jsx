@@ -14,6 +14,7 @@ const Posts = () => {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
+
   return (
     <>
       {posts?.ids?.map((id) => (

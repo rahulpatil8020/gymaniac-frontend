@@ -54,7 +54,7 @@ const PostWidget = ({ postId }) => {
       <Stack spacing={2}>
         <FlexBetween>
           <FlexBetween>
-            <AvatarAndName username={post?.creator} />
+            <AvatarAndName username={post?.creator} name="Rahul Patil" />
           </FlexBetween>
           <IconButton>
             <MoreVertIcon />
