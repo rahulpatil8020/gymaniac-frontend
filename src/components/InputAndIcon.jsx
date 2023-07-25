@@ -1,6 +1,6 @@
 import React from "react";
 import FlexBetween from "./FlexBetween";
-import { useTheme, InputBase, IconButton } from "@mui/material";
+import { InputBase } from "@mui/material";
 
 const InputAndIcon = ({
   backgroundColor,
@@ -10,8 +10,6 @@ const InputAndIcon = ({
   onChange,
   value,
 }) => {
-  const theme = useTheme();
-
   return (
     <FlexBetween
       backgroundColor={backgroundColor}

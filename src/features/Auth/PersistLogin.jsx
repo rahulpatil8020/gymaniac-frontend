@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useRefreshMutation } from "./authApiSlice";
 import { useSelector } from "react-redux";
@@ -11,7 +11,7 @@ const PersistLogin = () => {
   const token = useSelector(selectCurrentToken);
   const effectRan = useRef(true);
   const [trueSuccess, setTrueSuccess] = useState(false);
-  const [refresh, { isUninitialized, isLoading, isSuccess, isError, error }] =
+  const [refresh, { isUninitialized, isLoading, isSuccess, isError }] =
     useRefreshMutation();
 
   useEffect(() => {
@@ -20,9 +20,7 @@ const PersistLogin = () => {
       const verifyRefreshToken = async () => {
         console.log("verifying refresh token");
         try {
-          //const response =
           await refresh();
-          //const { accessToken } = response.data
           setTrueSuccess(true);
         } catch (err) {
           console.error(err);
@@ -31,8 +29,6 @@ const PersistLogin = () => {
 
       if (!token && persist) verifyRefreshToken();
     }
-
-    // return () => (effectRan.current = true);
 
     // eslint-disable-next-line
   }, []);

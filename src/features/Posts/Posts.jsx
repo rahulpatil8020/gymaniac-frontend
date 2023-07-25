@@ -5,10 +5,10 @@ import { useGetPostsQuery } from "./postsApiSlice";
 const Posts = () => {
   const {
     data: posts,
-    isLoading,
-    isSuccesss,
-    isError,
-    error,
+    // isLoading,
+    // isSuccesss,
+    // isError,
+    // error,
   } = useGetPostsQuery("postsList", {
     pollingInterval: 60000,
     refetchOnFocus: true,
