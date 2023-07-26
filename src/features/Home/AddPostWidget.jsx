@@ -15,6 +15,10 @@ import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseIcon from "@mui/icons-material/Close";
 import WidgetWrapper from "components/WidgetWrapper";
+import { useSelector } from "react-redux";
+import { selectUserInfo } from "features/User/userSlice";
+import { useAddNewPostMutation } from "features/Posts/postsApiSlice";
+import { useEffect } from "react";
 
 const AddPostWidget = () => {
   const theme = useTheme();
@@ -22,11 +26,57 @@ const AddPostWidget = () => {
   const [imageURL, setImageURL] = useState("null");
   const [multiline, setMultiline] = useState(false);
   const [caption, setCaption] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+  const userInfo = useSelector(selectUserInfo);
+  const abortController = new AbortController();
+
+  const [addNewPost, { isLoading, isSuccess, isError, error }] =
+    useAddNewPostMutation();
 
   const handleCancelImage = () => {
     setImageMetadata(null);
     setImageURL("");
   };
+
+  const handlePostUpload = async () => {
+    if (!userInfo?.username) return;
+    console.log("Uploading");
+    let postData = {
+      creator: userInfo?.username,
+      caption: caption,
+      createdOn: new Date(),
+      image: imageURL,
+      imageMetadata: {
+        name: imageMetadata?.name,
+        type: imageMetadata?.type,
+        lastModifiedDate: imageMetadata?.lastModifiedDate,
+      },
+    };
+
+    try {
+      await addNewPost(postData).unwrap();
+      setCaption("");
+      setImageMetadata(null);
+      setImageURL("");
+    } catch (error) {
+      setErrMsg(error?.data?.message);
+    }
+    // try {
+    //   const { accessToken } = await login({ username, password }).unwrap();
+    //   dispatch(setCredentials({ accessToken }));
+    //   navigate("/", {
+    //     replace: true,
+    //   });
+    // } catch (error) {
+    //   setErrMsg(error?.data?.message);
+    // }
+  };
+
+  useEffect(() => {
+    return () => {
+      abortController.abort();
+    };
+  }, []);
 
   function handleImageUpload(e) {
     let file = e.target.files[0];
@@ -41,6 +91,7 @@ const AddPostWidget = () => {
     };
     reader.readAsDataURL(file);
   }
+
   return (
     <>
       <WidgetWrapper>
@@ -104,8 +155,7 @@ const AddPostWidget = () => {
                 <LocationOnIcon />
               </IconButton>
             </Stack>
-
-            <Button>Post</Button>
+            <Button onClick={handlePostUpload}>Post</Button>
           </FlexBetween>
         </Stack>
       </WidgetWrapper>
