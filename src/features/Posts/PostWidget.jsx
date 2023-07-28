@@ -60,7 +60,7 @@ const PostWidget = ({ postId }) => {
           </IconButton>
         </FlexBetween>
         <Typography>{post.caption}</Typography>
-        {post.image?.length !== 0 && (
+        {post.image && (
           <Box
             sx={{
               height: 400,

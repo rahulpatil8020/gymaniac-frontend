@@ -24,8 +24,7 @@ import { useEffect } from "react";
 
 const AddPostWidget = () => {
   const theme = useTheme();
-  const [imageMetadata, setImageMetadata] = useState(null);
-  const [imageURL, setImageURL] = useState("");
+  const [image, setImage] = useState(null);
   const [multiline, setMultiline] = useState(false);
   const [caption, setCaption] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -36,73 +35,57 @@ const AddPostWidget = () => {
     useAddNewPostMutation();
 
   const handleCancelImage = () => {
-    setImageMetadata(null);
-    setImageURL("");
+    setImage("");
   };
 
   const handlePostUpload = async () => {
     if (!userInfo?.username) return;
-    if (!caption && !imageURL) {
+    if (!caption && !image) {
       setErrMsg("Please enter a caption or an image");
       return;
     }
-    let postData = {
+
+    const postData = {
       creator: userInfo?.username,
       caption: caption,
-      image: imageURL,
-      imageMetadata: {
-        name: imageMetadata?.name,
-        type: imageMetadata?.type,
-        lastModifiedDate: imageMetadata?.lastModifiedDate,
-      },
+      image: image,
     };
 
     try {
-      await addNewPost(postData).unwrap();
+      await addNewPost(postData);
       setCaption("");
-      setImageMetadata(null);
-      setImageURL("");
+      setImage("");
     } catch (error) {
       setErrMsg(error?.data?.message);
     }
-    // try {
-    //   const { accessToken } = await login({ username, password }).unwrap();
-    //   dispatch(setCredentials({ accessToken }));
-    //   navigate("/", {
-    //     replace: true,
-    //   });
-    // } catch (error) {
-    //   setErrMsg(error?.data?.message);
-    // }
   };
 
   useEffect(() => {
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, []); // eslint-disable-line
 
   function handleImageUpload(e) {
     if (e.target.files) {
       let file = e.target.files[0];
-      encodeImageFileAsURL(file);
-      setImageMetadata(file);
+      setImage(file);
     }
   }
 
-  function encodeImageFileAsURL(file) {
-    var reader = new FileReader();
-    if (reader) {
-      reader.onloadend = function () {
-        setImageURL(reader?.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
+  // function encodeImageFileAsURL(file) {
+  //   var reader = new FileReader();
+  //   if (reader) {
+  //     reader.onloadend = function () {
+  //       setImage(reader?.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
   return (
     <>
       <Snackbar
-        open={errMsg.length === 0 ? false : true}
+        open={errMsg?.length === 0 ? false : true}
         onClose={() => setErrMsg("")}
         autoHideDuration={3000}
       >
@@ -149,7 +132,7 @@ const AddPostWidget = () => {
                   </IconButton>
                 </label>
               </Tooltip>
-              {imageMetadata && (
+              {image && (
                 <Stack alignItems="center" direction="row" spacing={1}>
                   <Typography
                     textAlign={"center"}
@@ -158,7 +141,7 @@ const AddPostWidget = () => {
                     noWrap
                     textOverflow={"ellipsis"}
                   >
-                    {imageMetadata?.name}
+                    {image?.name}
                   </Typography>
                   <IconButton onClick={handleCancelImage}>
                     <CloseIcon />

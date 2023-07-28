@@ -10,9 +10,9 @@ const Posts = () => {
     // isError,
     // error,
   } = useGetPostsQuery("postsList", {
-    pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
+    // pollingInterval: 60000,
+    // refetchOnFocus: true,
+    // refetchOnMountOrArgChange: true,
   });
 
   return (

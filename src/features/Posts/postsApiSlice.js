@@ -34,13 +34,18 @@ export const postsApiSlice = apiSlice.injectEndpoints({
       },
     }),
     addNewPost: builder.mutation({
-      query: (initialPost) => ({
-        url: "/api/v1/post",
-        method: "POST",
-        body: {
-          ...initialPost,
-        },
-      }),
+      query: (post) => {
+        const formData = new FormData();
+
+        formData.append("creator", post.creator);
+        formData.append("caption", post.caption);
+        formData.append("image", post.image);
+        return {
+          url: "/api/v1/post",
+          method: "POST",
+          body: formData,
+        };
+      },
       invalidatesTags: [{ type: "Post", id: "LIST" }],
     }),
     updatePost: builder.mutation({
