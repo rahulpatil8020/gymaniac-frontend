@@ -44,7 +44,6 @@ const PostWidget = ({ postId }) => {
   useEffect(() => {
     if (post?.likedBy?.includes(username)) setHasUserLiked(true);
   }, [post, username]);
-
   const handleCommentsOpen = () => {
     setCommentsOpen((prev) => !prev);
   };
@@ -61,13 +60,15 @@ const PostWidget = ({ postId }) => {
           </IconButton>
         </FlexBetween>
         <Typography>{post.caption}</Typography>
-        <Box
-          sx={{
-            height: 400,
-            width: "100%",
-            backgroundColor: palette.background.default,
-          }}
-        ></Box>
+        {post.image?.length !== 0 && (
+          <Box
+            sx={{
+              height: 400,
+              width: "100%",
+              backgroundColor: palette.background.default,
+            }}
+          ></Box>
+        )}
         <FlexBetween mt="0.25rem">
           <FlexBetween gap="1rem">
             <FlexBetween gap="0.3rem">

@@ -12,15 +12,6 @@ const baseQuery = fetchBaseQuery({
     }
     return headers;
   },
-  prepareBody: (body) => {
-    console.log(body);
-    const { media, otherData } = body;
-    const formData = new FormData();
-    formData.append("media", media);
-    formData.append("otherData", JSON.stringify(otherData));
-    console.log(formData, "INSIDE PREPARING");
-    return formData;
-  },
 });
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {

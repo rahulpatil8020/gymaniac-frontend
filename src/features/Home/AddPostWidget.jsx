@@ -8,6 +8,8 @@ import {
   Button,
   IconButton,
   Typography,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import React, { useState } from "react";
@@ -23,7 +25,7 @@ import { useEffect } from "react";
 const AddPostWidget = () => {
   const theme = useTheme();
   const [imageMetadata, setImageMetadata] = useState(null);
-  const [imageURL, setImageURL] = useState("null");
+  const [imageURL, setImageURL] = useState("");
   const [multiline, setMultiline] = useState(false);
   const [caption, setCaption] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -40,11 +42,13 @@ const AddPostWidget = () => {
 
   const handlePostUpload = async () => {
     if (!userInfo?.username) return;
-    console.log("Uploading");
+    if (!caption && !imageURL) {
+      setErrMsg("Please enter a caption or an image");
+      return;
+    }
     let postData = {
       creator: userInfo?.username,
       caption: caption,
-      createdOn: new Date(),
       image: imageURL,
       imageMetadata: {
         name: imageMetadata?.name,
@@ -79,21 +83,31 @@ const AddPostWidget = () => {
   }, []);
 
   function handleImageUpload(e) {
-    let file = e.target.files[0];
-    encodeImageFileAsURL(file);
-    setImageMetadata(file);
+    if (e.target.files) {
+      let file = e.target.files[0];
+      encodeImageFileAsURL(file);
+      setImageMetadata(file);
+    }
   }
 
   function encodeImageFileAsURL(file) {
     var reader = new FileReader();
-    reader.onloadend = function () {
-      setImageURL(reader.result);
-    };
-    reader.readAsDataURL(file);
+    if (reader) {
+      reader.onloadend = function () {
+        setImageURL(reader?.result);
+      };
+      reader.readAsDataURL(file);
+    }
   }
-
   return (
     <>
+      <Snackbar
+        open={errMsg.length === 0 ? false : true}
+        onClose={() => setErrMsg("")}
+        autoHideDuration={3000}
+      >
+        <Alert severity="error">{errMsg}</Alert>
+      </Snackbar>
       <WidgetWrapper>
         <Stack
           spacing={2}
