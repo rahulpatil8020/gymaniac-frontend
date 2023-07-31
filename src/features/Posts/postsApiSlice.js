@@ -40,6 +40,8 @@ export const postsApiSlice = apiSlice.injectEndpoints({
         formData.append("creator", post.creator);
         formData.append("caption", post.caption);
         formData.append("image", post.image);
+        formData.append("creatorName", post.creatorName);
+        formData.append("createdOn", new Date().toISOString());
         return {
           url: "/api/v1/post",
           method: "POST",

@@ -12,7 +12,7 @@ import {
   Alert,
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,7 +20,6 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useSelector } from "react-redux";
 import { selectUserInfo } from "features/User/userSlice";
 import { useAddNewPostMutation } from "features/Posts/postsApiSlice";
-import { useEffect } from "react";
 
 const AddPostWidget = () => {
   const theme = useTheme();
@@ -45,8 +44,10 @@ const AddPostWidget = () => {
       return;
     }
 
+    const userFullName = userInfo?.firstName + " " + userInfo?.lastName;
     const postData = {
       creator: userInfo?.username,
+      creatorName: userFullName,
       caption: caption,
       image: image,
     };
@@ -152,7 +153,9 @@ const AddPostWidget = () => {
                 <LocationOnIcon />
               </IconButton>
             </Stack>
-            <Button onClick={handlePostUpload}>Post</Button>
+            <Button disabled={isLoading} onClick={handlePostUpload}>
+              Post
+            </Button>
           </FlexBetween>
         </Stack>
       </WidgetWrapper>

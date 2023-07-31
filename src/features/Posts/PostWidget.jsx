@@ -15,6 +15,27 @@ import {
 import { useGetPostsQuery } from "./postsApiSlice";
 import { useSelector } from "react-redux";
 import Comments from "./Comments";
+import moment from "moment";
+
+function timeSincePost(creationDate) {
+  const currentDate = new Date();
+  const timeDifferenceInSeconds = Math.floor(
+    (currentDate - creationDate) / 1000
+  );
+
+  if (timeDifferenceInSeconds < 60) {
+    return timeDifferenceInSeconds + " sec ago";
+  } else if (timeDifferenceInSeconds < 3600) {
+    const minutesAgo = Math.floor(timeDifferenceInSeconds / 60);
+    return minutesAgo + (minutesAgo === 1 ? " min ago" : " mins ago");
+  } else if (timeDifferenceInSeconds < 86400) {
+    const hoursAgo = Math.floor(timeDifferenceInSeconds / 3600);
+    return hoursAgo + (hoursAgo === 1 ? " hour ago" : " hours ago");
+  } else {
+    const daysAgo = Math.floor(timeDifferenceInSeconds / 86400);
+    return daysAgo + (daysAgo === 1 ? " day ago" : " days ago");
+  }
+}
 
 const PostWidget = ({ postId }) => {
   const { token } = useSelector((state) => state.auth);
@@ -23,6 +44,7 @@ const PostWidget = ({ postId }) => {
   const [hasUserLiked, setHasUserLiked] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);
   const primary = palette.primary.main;
+  const mediumMain = palette.neutral.mediumMain;
 
   const { post } = useGetPostsQuery("postsList", {
     selectFromResult: ({ data }) => ({
@@ -53,21 +75,27 @@ const PostWidget = ({ postId }) => {
       <Stack spacing={2}>
         <FlexBetween>
           <FlexBetween>
-            <AvatarAndName username={post?.creator} name="Rahul Patil" />
+            <AvatarAndName username={post?.creator} name={post?.creatorName} />
           </FlexBetween>
           <IconButton>
             <MoreVertIcon />
           </IconButton>
         </FlexBetween>
         <Typography>{post.caption}</Typography>
-        {post.image && (
+        <Typography color={mediumMain}>
+          {moment(post.createdOn).fromNow()}
+        </Typography>
+
+        {post?.imageURL && (
           <Box
+            component="img"
             sx={{
-              height: 400,
               width: "100%",
               backgroundColor: palette.background.default,
             }}
-          ></Box>
+            alt="post"
+            src={post?.imageURL}
+          />
         )}
         <FlexBetween mt="0.25rem">
           <FlexBetween gap="1rem">
