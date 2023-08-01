@@ -1,4 +1,12 @@
-import { Stack, Box, Typography, useTheme, IconButton } from "@mui/material";
+import {
+  Stack,
+  Box,
+  Typography,
+  useTheme,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -12,30 +20,14 @@ import {
   ShareOutlined,
   ChatBubbleTwoTone,
 } from "@mui/icons-material";
-import { useGetPostsQuery } from "./postsApiSlice";
+import {
+  useGetPostsQuery,
+  useDeletePostMutation,
+  useUpdatePostMutation,
+} from "./postsApiSlice";
 import { useSelector } from "react-redux";
 import Comments from "./Comments";
 import moment from "moment";
-
-function timeSincePost(creationDate) {
-  const currentDate = new Date();
-  const timeDifferenceInSeconds = Math.floor(
-    (currentDate - creationDate) / 1000
-  );
-
-  if (timeDifferenceInSeconds < 60) {
-    return timeDifferenceInSeconds + " sec ago";
-  } else if (timeDifferenceInSeconds < 3600) {
-    const minutesAgo = Math.floor(timeDifferenceInSeconds / 60);
-    return minutesAgo + (minutesAgo === 1 ? " min ago" : " mins ago");
-  } else if (timeDifferenceInSeconds < 86400) {
-    const hoursAgo = Math.floor(timeDifferenceInSeconds / 3600);
-    return hoursAgo + (hoursAgo === 1 ? " hour ago" : " hours ago");
-  } else {
-    const daysAgo = Math.floor(timeDifferenceInSeconds / 86400);
-    return daysAgo + (daysAgo === 1 ? " day ago" : " days ago");
-  }
-}
 
 const PostWidget = ({ postId }) => {
   const { token } = useSelector((state) => state.auth);
@@ -43,8 +35,12 @@ const PostWidget = ({ postId }) => {
   const { palette } = useTheme();
   const [hasUserLiked, setHasUserLiked] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const primary = palette.primary.main;
   const mediumMain = palette.neutral.mediumMain;
+
+  const abortController = new AbortController();
 
   const { post } = useGetPostsQuery("postsList", {
     selectFromResult: ({ data }) => ({
@@ -52,7 +48,18 @@ const PostWidget = ({ postId }) => {
     }),
   });
 
-  const abortController = new AbortController();
+  const [deletePost, { isLoading, isSuccess, isError, error }] =
+    useDeletePostMutation();
+
+  const [
+    updatePost,
+    {
+      isLoading: isUpdateLoading,
+      isSuccess: isUpdateSuccess,
+      isError: isUpdateError,
+      error: updateError,
+    },
+  ] = useUpdatePostMutation();
 
   useEffect(() => {
     const decoded = jwtDecode(token);
@@ -70,6 +77,20 @@ const PostWidget = ({ postId }) => {
     setCommentsOpen((prev) => !prev);
   };
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDeletePost = async () => {
+    await deletePost({ id: post.id });
+    setAnchorEl(null);
+  };
+
+  const handleLikePost = async () => {};
+
   return (
     <WidgetWrapper sx={{ marginTop: 3 }}>
       <Stack spacing={2}>
@@ -77,9 +98,33 @@ const PostWidget = ({ postId }) => {
           <FlexBetween>
             <AvatarAndName username={post?.creator} name={post?.creatorName} />
           </FlexBetween>
-          <IconButton>
-            <MoreVertIcon />
+          <IconButton onClick={handleClick}>
+            <MoreVertIcon
+              id="demo-positioned-button"
+              aria-controls={open ? "demo-positioned-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            />
           </IconButton>
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
+            <MenuItem onClick={handleClose}>Update</MenuItem>
+            <MenuItem onClick={handleDeletePost}>Delete</MenuItem>
+            {/* <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+          </Menu>
         </FlexBetween>
         <Typography>{post.caption}</Typography>
         <Typography color={mediumMain}>

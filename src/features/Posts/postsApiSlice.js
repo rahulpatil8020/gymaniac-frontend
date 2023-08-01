@@ -52,7 +52,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     }),
     updatePost: builder.mutation({
       query: (initialPost) => ({
-        url: "/api/v1/post",
+        url: `/api/v1/post/${initialPost?.id}`,
         method: "PATCH",
         body: {
           ...initialPost,
@@ -62,7 +62,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     }),
     deletePost: builder.mutation({
       query: ({ id }) => ({
-        url: "/api/v1/post",
+        url: `/api/v1/post/${id}`,
         method: "DELETE",
         body: { id },
       }),

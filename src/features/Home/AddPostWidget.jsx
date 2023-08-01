@@ -93,71 +93,75 @@ const AddPostWidget = () => {
         <Alert severity="error">{errMsg}</Alert>
       </Snackbar>
       <WidgetWrapper>
-        <Stack
-          spacing={2}
-          direction={"column"}
-          divider={<Divider orientation="horizontal" />}
-        >
-          <FlexBetween gap="1rem">
-            <Avatar>RP</Avatar>
-            <InputBase
-              value={caption}
-              autoFocus={multiline}
-              placeholder="What's on your mind..."
-              onChange={(e) => setCaption(e.target.value)}
-              onFocus={() => setMultiline(true)}
-              onBlur={() => setMultiline(false)}
-              multiline={multiline}
-              rows={multiline ? 4 : 1}
-              sx={{
-                width: "100%",
-                backgroundColor: theme.palette.neutral.light,
-                borderRadius: "1rem",
-                padding: "1rem 1rem",
-              }}
-            />
-          </FlexBetween>
-          <FlexBetween>
-            <Stack alignItems="center" spacing={2} direction={"row"}>
-              <input
-                onChange={handleImageUpload}
-                accept="image/*"
-                style={{ display: "none" }}
-                id="icon-button-file"
-                type="file"
+        {isLoading ? (
+          <Typography variant="h6">Uploading the post....</Typography>
+        ) : (
+          <Stack
+            spacing={2}
+            direction={"column"}
+            divider={<Divider orientation="horizontal" />}
+          >
+            <FlexBetween gap="1rem">
+              <Avatar>RP</Avatar>
+              <InputBase
+                value={caption}
+                autoFocus={multiline}
+                placeholder="What's on your mind..."
+                onChange={(e) => setCaption(e.target.value)}
+                onFocus={() => setMultiline(true)}
+                onBlur={() => setMultiline(false)}
+                multiline={multiline}
+                rows={multiline ? 4 : 1}
+                sx={{
+                  width: "100%",
+                  backgroundColor: theme.palette.neutral.light,
+                  borderRadius: "1rem",
+                  padding: "1rem 1rem",
+                }}
               />
-              <Tooltip title="Add Attachment">
-                <label htmlFor="icon-button-file">
-                  <IconButton aria-label="upload picture" component="span">
-                    <AttachFileOutlinedIcon />
-                  </IconButton>
-                </label>
-              </Tooltip>
-              {image && (
-                <Stack alignItems="center" direction="row" spacing={1}>
-                  <Typography
-                    textAlign={"center"}
-                    backgroundColor={theme.palette.neutral.light}
-                    width={100}
-                    noWrap
-                    textOverflow={"ellipsis"}
-                  >
-                    {image?.name}
-                  </Typography>
-                  <IconButton onClick={handleCancelImage}>
-                    <CloseIcon />
-                  </IconButton>
-                </Stack>
-              )}
-              <IconButton onClick={() => console.log("Location clicked")}>
-                <LocationOnIcon />
-              </IconButton>
-            </Stack>
-            <Button disabled={isLoading} onClick={handlePostUpload}>
-              Post
-            </Button>
-          </FlexBetween>
-        </Stack>
+            </FlexBetween>
+            <FlexBetween>
+              <Stack alignItems="center" spacing={2} direction={"row"}>
+                <input
+                  onChange={handleImageUpload}
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="icon-button-file"
+                  type="file"
+                />
+                <Tooltip title="Add Attachment">
+                  <label htmlFor="icon-button-file">
+                    <IconButton aria-label="upload picture" component="span">
+                      <AttachFileOutlinedIcon />
+                    </IconButton>
+                  </label>
+                </Tooltip>
+                {image && (
+                  <Stack alignItems="center" direction="row" spacing={1}>
+                    <Typography
+                      textAlign={"center"}
+                      backgroundColor={theme.palette.neutral.light}
+                      width={100}
+                      noWrap
+                      textOverflow={"ellipsis"}
+                    >
+                      {image?.name}
+                    </Typography>
+                    <IconButton onClick={handleCancelImage}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Stack>
+                )}
+                <IconButton onClick={() => console.log("Location clicked")}>
+                  <LocationOnIcon />
+                </IconButton>
+              </Stack>
+              <Button disabled={isLoading} onClick={handlePostUpload}>
+                Post
+              </Button>
+            </FlexBetween>
+          </Stack>
+        )}
       </WidgetWrapper>
     </>
   );
