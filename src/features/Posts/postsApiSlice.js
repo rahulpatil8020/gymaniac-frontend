@@ -1,10 +1,7 @@
 import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice";
 
-const postsAdapter = createEntityAdapter({
-  sortComparer: (a, b) =>
-    a.createdOn === b.createdOn ? 0 : a.createdOn ? 1 : -1,
-});
+const postsAdapter = createEntityAdapter();
 
 const initialState = postsAdapter.getInitialState();
 
@@ -18,6 +15,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
         },
       }),
       transformResponse: (responseData) => {
+        console.log("GEt post transform response");
         const loadedPosts = responseData.map((post) => {
           post.id = post._id;
           return post;
@@ -33,6 +31,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
         } else return [{ type: "Post", id: "LIST" }];
       },
     }),
+
     addNewPost: builder.mutation({
       query: (post) => {
         const formData = new FormData();
@@ -60,6 +59,22 @@ export const postsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, err, arg) => [{ type: "Post", id: arg.id }],
     }),
+    likePost: builder.mutation({
+      query: ({ id, username }) => ({
+        url: `/api/v1/post/like/${id}`,
+        method: "PATCH",
+        body: { id, username },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Post", id: arg.id }],
+    }),
+    comment: builder.mutation({
+      query: ({ id, comment }) => ({
+        url: `/api/v1/post/comment/${id}`,
+        method: "PATCH",
+        body: { id, comment },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Post", id: arg.id }],
+    }),
     deletePost: builder.mutation({
       query: ({ id }) => ({
         url: `/api/v1/post/${id}`,
@@ -76,6 +91,8 @@ export const {
   useAddNewPostMutation,
   useUpdatePostMutation,
   useDeletePostMutation,
+  useLikePostMutation,
+  useCommentMutation,
 } = postsApiSlice;
 
 export const selectPostsResult = postsApiSlice.endpoints.getPosts.select();

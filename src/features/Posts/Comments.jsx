@@ -8,16 +8,33 @@ import {
 import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import InputAndIcon from "components/InputAndIcon";
+import { useCommentMutation } from "./postsApiSlice";
 
-const Comments = ({ comments }) => {
+const Comments = ({ username, comments, postId }) => {
   const theme = useTheme();
   const mediumMain = theme.palette.neutral.mediumMain;
   const neutralLight = theme.palette.neutral.light;
-  const [comment, setComment] = useState("");
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
+  const [commentText, setCommentText] = useState("");
+
+  const [comment, { isLoading, isSuccess, isError, error }] =
+    useCommentMutation();
+
+  const handleUploadComment = async () => {
+    if (commentText.length > 0) {
+      const commentData = {
+        commentText: commentText,
+        commentBy: username,
+        commentOn: new Date(),
+      };
+      console.log(commentData, postId);
+      await comment({ id: postId, comment: commentData });
+      setCommentText("");
+    }
   };
-  const handleAddComment = () => {};
+
+  const handleCommentChange = (e) => {
+    setCommentText(e.target.value);
+  };
   return (
     <>
       {comments.length !== 0 ? (
@@ -45,12 +62,12 @@ const Comments = ({ comments }) => {
         fullWidth
         backgroundColor={neutralLight}
         iconButton={
-          <IconButton onClick={handleAddComment}>
+          <IconButton onClick={handleUploadComment}>
             <SendIcon />
           </IconButton>
         }
         placeholder={"Add a comment..."}
-        value={comment}
+        value={commentText}
         onChange={handleCommentChange}
       />
     </>

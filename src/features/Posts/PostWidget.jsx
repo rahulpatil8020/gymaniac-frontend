@@ -24,6 +24,7 @@ import {
   useGetPostsQuery,
   useDeletePostMutation,
   useUpdatePostMutation,
+  useLikePostMutation,
 } from "./postsApiSlice";
 import { useSelector } from "react-redux";
 import Comments from "./Comments";
@@ -48,8 +49,15 @@ const PostWidget = ({ postId }) => {
     }),
   });
 
-  const [deletePost, { isLoading, isSuccess, isError, error }] =
-    useDeletePostMutation();
+  const [
+    deletePost,
+    {
+      isLoading: isDelLoading,
+      isSuccess: isDelSuccess,
+      isError: isDelError,
+      error: delError,
+    },
+  ] = useDeletePostMutation();
 
   const [
     updatePost,
@@ -60,6 +68,16 @@ const PostWidget = ({ postId }) => {
       error: updateError,
     },
   ] = useUpdatePostMutation();
+
+  const [
+    likePost,
+    {
+      isLoading: isLikeLoading,
+      isSuccess: isLikeSuccess,
+      isError: isLikeError,
+      error: likeError,
+    },
+  ] = useLikePostMutation();
 
   useEffect(() => {
     const decoded = jwtDecode(token);
@@ -72,6 +90,7 @@ const PostWidget = ({ postId }) => {
 
   useEffect(() => {
     if (post?.likedBy?.includes(username)) setHasUserLiked(true);
+    else setHasUserLiked(false);
   }, [post, username]);
   const handleCommentsOpen = () => {
     setCommentsOpen((prev) => !prev);
@@ -89,7 +108,9 @@ const PostWidget = ({ postId }) => {
     setAnchorEl(null);
   };
 
-  const handleLikePost = async () => {};
+  const handleLikePost = async () => {
+    await likePost({ id: post.id, username });
+  };
 
   return (
     <WidgetWrapper sx={{ marginTop: 3 }}>
@@ -145,7 +166,7 @@ const PostWidget = ({ postId }) => {
         <FlexBetween mt="0.25rem">
           <FlexBetween gap="1rem">
             <FlexBetween gap="0.3rem">
-              <IconButton onClick={() => console.log("Liked")}>
+              <IconButton onClick={handleLikePost}>
                 {hasUserLiked ? (
                   <FavoriteOutlined
                     sx={{
@@ -174,7 +195,13 @@ const PostWidget = ({ postId }) => {
             <ShareOutlined />
           </IconButton>
         </FlexBetween>
-        {commentsOpen && <Comments comments={post?.comments} />}
+        {commentsOpen && (
+          <Comments
+            postId={postId}
+            username={username}
+            comments={post?.comments}
+          />
+        )}
       </Stack>
     </WidgetWrapper>
   );
