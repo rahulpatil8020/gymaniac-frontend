@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import InputAndIcon from "components/InputAndIcon";
 import { useCommentMutation } from "./postsApiSlice";
+import moment from "moment";
 
 const Comments = ({ username, comments, postId }) => {
   const theme = useTheme();
@@ -48,7 +49,7 @@ const Comments = ({ username, comments, postId }) => {
                   alignSelf={"center"}
                   fontSize={10}
                 >
-                  {comment?.commentOn}
+                  {moment(comment.commentOn).fromNow()}
                 </Typography>
               </Stack>
               <Typography>{comment?.commentText}</Typography>
